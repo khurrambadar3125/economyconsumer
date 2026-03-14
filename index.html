@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EconomyConsumer — World Business Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#faf7f2;
+  --ink:#0d0d0d;
+  --ink2:#2c2c2c;
+  --muted:#6a6a6a;
+  --rule:#d4cfc8;
+  --gold:#b8933a;
+  --gold-light:#f0dfa8;
+  --salmon:#e8a87c;
+  --salmon-light:#fde8d8;
+  --navy:#0b1f3a;
+  --navy2:#122952;
+  --red:#c0392b;
+  --green:#1a7f5a;
+  --blue:#1a5f9a;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;min-height:100vh;overflow-x:hidden}
+
+/* ── MASTHEAD ── */
+#masthead{background:var(--navy);padding:0 2rem;border-bottom:3px solid var(--gold)}
+.masthead-top{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.logo{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;letter-spacing:0.35em;color:#fff;text-transform:uppercase;line-height:1}
+.logo-sub{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.masthead-meta{text-align:right}
+.masthead-date{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);text-transform:uppercase}
+.refresh-badge{display:inline-flex;align-items:center;gap:6px;margin-top:6px;background:rgba(184,147,58,0.15);border:1px solid rgba(184,147,58,0.4);border-radius:2px;padding:3px 10px;cursor:pointer;transition:all 0.2s}
+.refresh-badge:hover{background:rgba(184,147,58,0.3)}
+.refresh-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.refresh-text{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:var(--gold)}
+
+/* ── MARKETS BAR ── */
+#markets-bar{background:#0f2748;padding:0.5rem 2rem;display:flex;gap:2rem;align-items:center;overflow-x:auto;scrollbar-width:none}
+#markets-bar::-webkit-scrollbar{display:none}
+.market-item{display:flex;gap:8px;align-items:baseline;flex-shrink:0}
+.market-name{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;color:rgba(255,255,255,0.5);text-transform:uppercase}
+.market-val{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:500;color:#fff}
+.market-chg{font-family:'JetBrains Mono',monospace;font-size:0.65rem}
+.up{color:#4ade80}.dn{color:#f87171}
+.market-sep{width:1px;height:16px;background:rgba(255,255,255,0.1);flex-shrink:0}
+
+/* ── NAV ── */
+#nav{background:var(--navy);border-top:1px solid rgba(255,255,255,0.08)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-tabs{display:flex;gap:0}
+.nav-tab{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.75rem 1.1rem;color:rgba(255,255,255,0.5);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,0.05)}
+.nav-tab.active{color:#fff;border-bottom-color:var(--gold)}
+.nav-right{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:rgba(255,255,255,0.3)}
+
+/* ── TICKER ── */
+#ticker-bar{background:var(--gold);padding:0.45rem 0;overflow:hidden;position:relative}
+.ticker-inner{display:flex;animation:ticker 60s linear infinite;width:max-content}
+.ticker-inner:hover{animation-play-state:paused}
+.ticker-item{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;color:var(--navy);padding:0 3rem;white-space:nowrap}
+.ticker-sep{color:rgba(11,31,58,0.4);margin:0 0.5rem}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── MAIN CONTENT ── */
+#main{max-width:1400px;margin:0 auto;padding:2rem}
+
+/* ── SECTION LABELS ── */
+.section-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);padding-bottom:0.5rem;border-bottom:1px solid var(--rule);margin-bottom:1.5rem}
+.section-label span{color:var(--gold);font-weight:500}
+
+/* ── HERO ── */
+#hero{display:grid;grid-template-columns:1fr 320px;grid-template-rows:auto auto;gap:0;margin-bottom:3rem;border-top:3px solid var(--ink)}
+.hero-main{grid-row:1/3;padding-right:2.5rem;border-right:1px solid var(--rule)}
+.hero-side{display:flex;flex-direction:column;gap:0;padding-left:2rem}
+
+.hero-label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin:1.25rem 0 0.75rem;font-weight:500}
+.hero-headline{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:var(--ink);margin-bottom:1rem}
+.hero-headline:hover{color:var(--navy)}
+.hero-summary{font-size:1.05rem;line-height:1.7;color:var(--ink2);font-weight:300;margin-bottom:1rem;max-width:65ch}
+.hero-byline{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase}
+.hero-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);margin-bottom:1rem;border-radius:1px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.hero-img-placeholder{color:rgba(255,255,255,0.1);font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;letter-spacing:0.1em;user-select:none}
+
+.side-story{padding:1.25rem 0;border-bottom:1px solid var(--rule)}
+.side-story:last-child{border-bottom:none}
+.side-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:0.4rem}
+.side-headline{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;line-height:1.25;color:var(--ink);margin-bottom:0.5rem;cursor:pointer}
+.side-headline:hover{color:var(--navy)}
+.side-summary{font-size:0.85rem;line-height:1.6;color:var(--muted);font-weight:300}
+
+/* ── CATEGORY GRID ── */
+.cat-section{margin-bottom:3rem}
+.cat-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:0.6rem;border-bottom:2px solid var(--ink)}
+.cat-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink)}
+.cat-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-left:auto}
+.cat-count{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase}
+
+.stories-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem 2rem}
+.story-card{border-top:1px solid var(--rule);padding-top:1rem}
+.story-cat{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
+.story-headline{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;line-height:1.25;color:var(--ink);margin-bottom:0.6rem;cursor:pointer;transition:color 0.15s}
+.story-headline:hover{color:var(--navy2)}
+.story-summary{font-size:0.82rem;line-height:1.65;color:var(--ink2);font-weight:300;margin-bottom:0.75rem}
+.story-foot{display:flex;align-items:center;justify-content:space-between}
+.story-source{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase}
+.story-urgency{font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;padding:2px 6px;border-radius:1px;text-transform:uppercase}
+.urg-breaking{background:var(--red);color:#fff}
+.urg-developing{background:var(--navy);color:#fff}
+.urg-analysis{background:var(--rule);color:var(--muted)}
+
+/* ── SKELETON ── */
+.skel{background:var(--rule);border-radius:1px;animation:shimmer 1.5s infinite}
+@keyframes shimmer{0%,100%{opacity:0.5}50%{opacity:1}}
+.skel-headline{height:1.2rem;width:85%;margin-bottom:0.5rem}
+.skel-line{height:0.75rem;width:100%;margin-bottom:0.4rem}
+.skel-line.w70{width:70%}
+.skel-hero-h{height:2.5rem;width:90%;margin-bottom:0.75rem}
+.skel-hero-h2{height:2.5rem;width:70%;margin-bottom:1rem}
+
+/* ── FOOTER ── */
+#footer{background:var(--navy);border-top:3px solid var(--gold);padding:2rem;margin-top:3rem}
+.footer-grid{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;letter-spacing:0.35em;color:#fff}
+.footer-text{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:rgba(255,255,255,0.4);text-align:center;line-height:1.8}
+.footer-refresh{text-align:right}
+.footer-countdown{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:500;color:var(--gold);letter-spacing:0.1em}
+.footer-cd-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-top:4px}
+
+/* ── LOADING OVERLAY ── */
+#loading-overlay{position:fixed;inset:0;background:var(--navy);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s}
+#loading-overlay.hide{opacity:0;pointer-events:none}
+.load-logo{font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;letter-spacing:0.5em;color:#fff;margin-bottom:1rem;animation:fadeUp 0.6s ease forwards}
+.load-sub{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:3rem;animation:fadeUp 0.6s 0.2s ease both}
+.load-bar{width:300px;height:2px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+.load-fill{height:100%;background:var(--gold);width:0%;transition:width 0.4s ease;border-radius:1px}
+.load-status{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-top:1rem;min-height:1rem;text-align:center}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .stories-grid{grid-template-columns:repeat(2,1fr)}
+  #hero{grid-template-columns:1fr;grid-template-rows:auto}
+  .hero-main{border-right:none;padding-right:0;border-bottom:1px solid var(--rule);padding-bottom:2rem;margin-bottom:1.5rem}
+  .hero-side{flex-direction:row;flex-wrap:wrap;padding-left:0}
+  .side-story{flex:1 1 40%;padding-right:1.5rem}
+}
+@media(max-width:700px){
+  .logo{font-size:1.8rem;letter-spacing:0.2em}
+  .stories-grid{grid-template-columns:1fr}
+  .hero-headline{font-size:2rem}
+  .nav-tabs{overflow-x:auto;scrollbar-width:none}
+  #main{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-overlay">
+  <div class="load-logo">EC</div>
+  <div class="load-sub">World Business & Economy Intelligence</div>
+  <div class="load-bar"><div class="load-fill" id="load-fill"></div></div>
+  <div class="load-status" id="load-status">Initializing...</div>
+</div>
+
+<!-- MASTHEAD -->
+<header id="masthead">
+  <div class="masthead-top">
+    <div>
+      <div class="logo">Economy<span style="color:var(--gold)">Consumer</span></div>
+      <div class="logo-sub">economyconsumer.com · World Business Intelligence</div>
+    </div>
+    <div class="masthead-meta">
+      <div class="masthead-date" id="current-date"></div>
+      <div class="refresh-badge" onclick="triggerRefresh()">
+        <div class="refresh-dot"></div>
+        <div class="refresh-text">LIVE · Next refresh: <span id="countdown-mini">60:00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARKETS BAR -->
+  <div id="markets-bar">
+    <div class="market-item"><span class="market-name">DOW</span><span class="market-val" id="m-dow">—</span><span class="market-chg" id="m-dow-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">S&amp;P 500</span><span class="market-val" id="m-sp">—</span><span class="market-chg" id="m-sp-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">NASDAQ</span><span class="market-val" id="m-nq">—</span><span class="market-chg" id="m-nq-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">FTSE 100</span><span class="market-val" id="m-ftse">—</span><span class="market-chg" id="m-ftse-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">GOLD</span><span class="market-val" id="m-gold">—</span><span class="market-chg" id="m-gold-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">OIL WTI</span><span class="market-val" id="m-oil">—</span><span class="market-chg" id="m-oil-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">BTC</span><span class="market-val" id="m-btc">—</span><span class="market-chg" id="m-btc-c">—</span></div>
+    <div class="market-sep"></div>
+    <div class="market-item"><span class="market-name">EUR/USD</span><span class="market-val" id="m-eur">—</span><span class="market-chg" id="m-eur-c">—</span></div>
+  </div>
+
+  <!-- NAV -->
+  <div id="nav">
+    <div class="nav-inner">
+      <div class="nav-tabs" id="nav-tabs">
+        <div class="nav-tab active" data-cat="all">All</div>
+        <div class="nav-tab" data-cat="markets">Markets</div>
+        <div class="nav-tab" data-cat="world">World</div>
+        <div class="nav-tab" data-cat="technology">Technology</div>
+        <div class="nav-tab" data-cat="politics">Politics</div>
+        <div class="nav-tab" data-cat="energy">Energy</div>
+        <div class="nav-tab" data-cat="business">Business</div>
+      </div>
+      <div class="nav-right" id="last-updated">LAST UPDATED —</div>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div id="ticker-bar"><div class="ticker-inner" id="ticker-inner"></div></div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- HERO -->
+  <div class="section-label">Top <span>Stories</span></div>
+  <div id="hero">
+    <div class="hero-main" id="hero-main">
+      <div class="hero-label">Breaking News</div>
+      <div class="hero-headline skel skel-hero-h"></div>
+      <div class="hero-headline skel skel-hero-h2" style="height:1.8rem;margin-bottom:1rem"></div>
+      <div class="skel skel-line" style="margin-bottom:0.5rem"></div>
+      <div class="skel skel-line w70"></div>
+    </div>
+    <div class="hero-side" id="hero-side">
+      <div class="side-story"><div class="skel skel-headline"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div>
+      <div class="side-story"><div class="skel skel-headline"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY SECTIONS -->
+  <div id="cat-sections"></div>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div class="footer-logo">Economy<span style="color:var(--gold)">Consumer</span></div>
+    <div class="footer-text">
+      Powered by Artificial Intelligence · All stories rewritten by AI from public sources<br>
+      © 2026 EconomyConsumer.com · Refreshes every 60 minutes automatically
+    </div>
+    <div class="footer-refresh">
+      <div class="footer-countdown" id="footer-countdown">60:00</div>
+      <div class="footer-cd-label">Until next refresh</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CATEGORIES = [
+  {id:'markets',    label:'Markets & Finance',    color:'#b8933a', icon:'M'},
+  {id:'world',      label:'World News',            color:'#1a5f9a', icon:'W'},
+  {id:'technology', label:'Technology',            color:'#1a7f5a', icon:'T'},
+  {id:'politics',   label:'Politics & Policy',    color:'#c0392b', icon:'P'},
+  {id:'energy',     label:'Energy & Climate',     color:'#5b2d8e', icon:'E'},
+  {id:'business',   label:'Business & Economy',   color:'#0b1f3a', icon:'B'},
+];
+
+let allStories = [];
+let tickerItems = [];
+let refreshSecs = 3600;
+let countdownInterval;
+let currentCat = 'all';
+
+// ── DATE ──
+function setDate(){
+  const now = new Date();
+  document.getElementById('current-date').textContent =
+    now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase() +
+    ' · ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) + ' UTC';
+}
+setDate(); setInterval(setDate, 30000);
+
+// ── COUNTDOWN ──
+function startCountdown(){
+  clearInterval(countdownInterval);
+  refreshSecs = 3600;
+  countdownInterval = setInterval(()=>{
+    refreshSecs--;
+    if(refreshSecs<=0){clearInterval(countdownInterval);loadAllNews();return;}
+    const m=String(Math.floor(refreshSecs/60)).padStart(2,'0');
+    const s=String(refreshSecs%60).padStart(2,'0');
+    const txt=`${m}:${s}`;
+    document.getElementById('countdown-mini').textContent=txt;
+    document.getElementById('footer-countdown').textContent=txt;
+  },1000);
+}
+
+function triggerRefresh(){loadAllNews();}
+
+// ── MARKET DATA ──
+function setMarket(id, val, chg){
+  const el=document.getElementById(id);
+  const ec=document.getElementById(id+'-c');
+  if(el)el.textContent=val;
+  if(ec){ec.textContent=chg;ec.className='market-chg '+(chg.startsWith('-')?'dn':'up');}
+}
+
+async function fetchMarkets(){
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,tools:[{type:'web_search_20250305',name:'web_search'}],system:'Search for current market prices and return ONLY a JSON object (no markdown, no backticks, no explanation) with this exact structure: {"dow":{"val":"43,521","chg":"+0.4%"},"sp":{"val":"5,891","chg":"+0.3%"},"nasdaq":{"val":"18,234","chg":"+0.6%"},"ftse":{"val":"8,445","chg":"-0.1%"},"gold":{"val":"2,654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84,200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}. Use real current values from web search.',messages:[{role:'user',content:'Get me current stock market prices as JSON only, no other text.'}]})});
+    const d=await r.json();
+    const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
+    const m=JSON.parse(txt);
+    setMarket('m-dow',m.dow.val,m.dow.chg);
+    setMarket('m-sp',m.sp.val,m.sp.chg);
+    setMarket('m-nq',m.nasdaq.val,m.nasdaq.chg);
+    setMarket('m-ftse',m.ftse.val,m.ftse.chg);
+    setMarket('m-gold','$'+m.gold.val,m.gold.chg);
+    setMarket('m-oil','$'+m.oil.val,m.oil.chg);
+    setMarket('m-btc','$'+m.btc.val,m.btc.chg);
+    setMarket('m-eur',m.eur.val,m.eur.chg);
+  }catch(e){console.log('Markets error',e);}
+}
+
+// ── NEWS FETCH ──
+async function fetchCategoryNews(cat){
+  const catInfo = CATEGORIES.find(c=>c.id===cat)||{label:cat};
+  const sys=`You are a world-class senior editor at a global news publication. Search the web for the latest breaking news in the category "${catInfo.label}" right now. Return ONLY a valid JSON array — no markdown, no backticks, no explanation, nothing else. The array must have exactly 4 objects, each with these exact keys:
+{
+  "headline": "A powerful, specific headline (max 15 words)",
+  "summary": "A 2-3 sentence authoritative editorial summary written in fresh, original prose. Do not copy source text. Write in the style of the Financial Times or Bloomberg.",
+  "source": "Source publication name",
+  "category": "${cat}",
+  "urgency": "breaking|developing|analysis"
+}
+Use real, current breaking news from web search. Be specific with numbers, names, and facts.`;
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,tools:[{type:'web_search_20250305',name:'web_search'}],system:sys,messages:[{role:'user',content:`Search for the 4 most important ${catInfo.label} news stories happening right now. Return as JSON array only.`}]})});
+  const d=await r.json();
+  const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
+  const start=txt.indexOf('[');const end=txt.lastIndexOf(']');
+  if(start===-1||end===-1)throw new Error('No JSON array found');
+  return JSON.parse(txt.slice(start,end+1));
+}
+
+// ── RENDER HERO ──
+function renderHero(stories){
+  if(!stories||!stories.length)return;
+  const [hero,...rest]=stories;
+  const catColor=CATEGORIES.find(c=>c.id===hero.category)?.color||'#b8933a';
+  document.getElementById('hero-main').innerHTML=`
+    <div class="hero-img"><div class="hero-img-placeholder">EC</div></div>
+    <div class="hero-label" style="color:${catColor}">${hero.category.toUpperCase()} · ${hero.urgency.toUpperCase()}</div>
+    <div class="hero-headline">${hero.headline}</div>
+    <div class="hero-summary">${hero.summary}</div>
+    <div class="hero-byline">SOURCE: ${hero.source} · ECONOMYCONSUMER.COM</div>
+  `;
+  const sideEl=document.getElementById('hero-side');
+  sideEl.innerHTML=rest.slice(0,2).map(s=>`
+    <div class="side-story">
+      <div class="side-label" style="color:${CATEGORIES.find(c=>c.id===s.category)?.color||'#1a5f9a'}">${s.category.toUpperCase()}</div>
+      <div class="side-headline">${s.headline}</div>
+      <div class="side-summary">${s.summary}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-top:0.5rem">${s.source} · ${s.urgency}</div>
+    </div>
+  `).join('');
+}
+
+// ── RENDER CATEGORIES ──
+function renderCategories(storiesByCat){
+  const container=document.getElementById('cat-sections');
+  container.innerHTML='';
+  CATEGORIES.forEach(cat=>{
+    const stories=storiesByCat[cat.id]||[];
+    if(!stories.length)return;
+    const sec=document.createElement('div');
+    sec.className='cat-section';
+    sec.id=`sec-${cat.id}`;
+    sec.innerHTML=`
+      <div class="cat-header">
+        <div class="cat-title" style="border-left:4px solid ${cat.color};padding-left:0.75rem">${cat.label}</div>
+        <div class="cat-count">${stories.length} STORIES</div>
+        <div class="cat-dot" style="background:${cat.color}"></div>
+      </div>
+      <div class="stories-grid">
+        ${stories.map(s=>`
+          <div class="story-card">
+            <div class="story-cat" style="color:${cat.color}">${s.urgency.toUpperCase()}</div>
+            <div class="story-headline">${s.headline}</div>
+            <div class="story-summary">${s.summary}</div>
+            <div class="story-foot">
+              <div class="story-source">${s.source}</div>
+              <div class="story-urgency ${s.urgency==='breaking'?'urg-breaking':s.urgency==='developing'?'urg-developing':'urg-analysis'}">${s.urgency}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(sec);
+  });
+}
+
+// ── TICKER ──
+function buildTicker(allS){
+  if(!allS.length)return;
+  const items=allS.map(s=>`<span class="ticker-item">● ${s.headline} <span class="ticker-sep">·</span> ${s.source}</span>`).join('');
+  const el=document.getElementById('ticker-inner');
+  el.innerHTML=items+items; // duplicate for seamless loop
+  const total=allS.length*280;
+  el.style.animationDuration=`${Math.max(40,total/8)}s`;
+}
+
+// ── FILTER BY CAT ──
+function filterByCat(cat){
+  currentCat=cat;
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    t.classList.toggle('active',t.dataset.cat===cat);
+  });
+  document.querySelectorAll('.cat-section').forEach(s=>{
+    s.style.display=(cat==='all'||s.id===`sec-${cat}`)?'block':'none';
+  });
+  const hero=document.getElementById('hero');
+  hero.style.display=(cat==='all'||cat==='world'||cat==='markets')?'grid':'none';
+}
+
+document.getElementById('nav-tabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.nav-tab');
+  if(tab)filterByCat(tab.dataset.cat);
+});
+
+// ── LOAD ALL ──
+async function loadAllNews(){
+  const overlay=document.getElementById('loading-overlay');
+  overlay.classList.remove('hide');
+  const fillEl=document.getElementById('load-fill');
+  const statusEl=document.getElementById('load-status');
+  
+  // Reset
+  allStories=[];
+  const storiesByCat={};
+  
+  // Reset hero skeletons
+  document.getElementById('hero-main').innerHTML=`
+    <div class="hero-label">Breaking News</div>
+    <div class="skel skel-hero-h" style="height:2.5rem;width:90%;margin-bottom:0.75rem"></div>
+    <div class="skel skel-hero-h" style="height:1.8rem;width:70%;margin-bottom:1rem"></div>
+    <div class="skel skel-line" style="margin-bottom:0.5rem"></div>
+    <div class="skel skel-line w70"></div>`;
+  document.getElementById('hero-side').innerHTML=`
+    <div class="side-story"><div class="skel skel-headline"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div>
+    <div class="side-story"><div class="skel skel-headline"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div>`;
+  document.getElementById('cat-sections').innerHTML='';
+  document.getElementById('ticker-inner').innerHTML='';
+
+  // Fetch markets concurrently
+  fetchMarkets();
+
+  let done=0;
+  const total=CATEGORIES.length;
+  
+  // Fetch each category sequentially (avoid API rate limits)
+  for(const cat of CATEGORIES){
+    statusEl.textContent=`Scanning global news: ${cat.label}...`;
+    fillEl.style.width=`${(done/total)*90}%`;
+    try{
+      const stories=await fetchCategoryNews(cat.id);
+      storiesByCat[cat.id]=stories;
+      allStories.push(...stories);
+      
+      // Render hero with first breaking category
+      if(done===0){
+        const breaking=stories.find(s=>s.urgency==='breaking')||stories[0];
+        if(breaking)renderHero([breaking,...stories.filter(s=>s!==breaking).slice(0,2)]);
+      }
+      
+      // Progressively render categories
+      const sec=document.createElement('div');
+      sec.className='cat-section';sec.id=`sec-${cat.id}`;
+      sec.innerHTML=`
+        <div class="cat-header">
+          <div class="cat-title" style="border-left:4px solid ${cat.color};padding-left:0.75rem">${cat.label}</div>
+          <div class="cat-count">${stories.length} STORIES</div>
+          <div class="cat-dot" style="background:${cat.color}"></div>
+        </div>
+        <div class="stories-grid">
+          ${stories.map(s=>`
+            <div class="story-card">
+              <div class="story-cat" style="color:${cat.color}">${s.urgency.toUpperCase()}</div>
+              <div class="story-headline">${s.headline}</div>
+              <div class="story-summary">${s.summary}</div>
+              <div class="story-foot">
+                <div class="story-source">${s.source}</div>
+                <div class="story-urgency ${s.urgency==='breaking'?'urg-breaking':s.urgency==='developing'?'urg-developing':'urg-analysis'}">${s.urgency}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+      document.getElementById('cat-sections').appendChild(sec);
+      
+      // Apply current filter
+      if(currentCat!=='all'&&sec.id!==`sec-${currentCat}`) sec.style.display='none';
+      
+    }catch(e){console.error(`Failed ${cat.id}:`,e);}
+    done++;
+  }
+
+  fillEl.style.width='100%';
+  statusEl.textContent='Intelligence platform ready.';
+  
+  buildTicker(allStories);
+  
+  // Update last updated
+  const now=new Date();
+  document.getElementById('last-updated').textContent=
+    'UPDATED '+now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+' UTC';
+  
+  setTimeout(()=>overlay.classList.add('hide'),800);
+  startCountdown();
+}
+
+// ── INIT ──
+loadAllNews();
+</script>
+</body>
+</html>
