@@ -684,48 +684,30 @@ function loadCached(){
 }
 function saveCache(){try{localStorage.setItem(CK,JSON.stringify({data:news,ts:Date.now()}));}catch(e){}}
 
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
 async function loadFresh(){
   document.getElementById('rbtn').classList.add('spin');
-  showSbar('Fetching latest news from all categories...');
-
   fetchMarkets();
-
-  // Fetch all 8 categories in parallel
-  const results=await Promise.allSettled(
-    CATS.map(cat=>fetchCat(cat.id).then(s=>({id:cat.id,s})).catch(e=>({id:cat.id,err:e.message})))
-  );
-
-  let successCount=0;
-  let firstError=null;
-
-  results.forEach(r=>{
-    if(r.status==='fulfilled'){
-      if(r.value.err){
-        if(!firstError)firstError={cat:r.value.id,msg:r.value.err};
-        console.error(r.value.id,r.value.err);
-      }else{
-        news[r.value.id]=r.value.s;
-        successCount++;
-      }
+  let successCount=0,firstError=null;
+  for(let i=0;i<CATS.length;i++){
+    const cat=CATS[i];
+    showSbar('Loading '+cat.label+' ('+( i+1)+'/'+CATS.length+')...');
+    try{
+      const s=await fetchCat(cat.id);
+      news[cat.id]=s;successCount++;
+      renderFeed();
+    }catch(e){
+      console.error(cat.id,e.message);
+      if(!firstError)firstError={cat:cat.id,msg:e.message};
     }
-  });
-
-  saveCache();
-  renderFeed();
-  document.getElementById('rbtn').classList.remove('spin');
-
-  if(successCount>0){
-    hideSbar();
-    const total=Object.values(news).flat().length;
-    showToast(`${total} articles loaded`);
-    startCountdown();
-  }else if(firstError){
-    hideSbar();
-    showError(firstError.cat, firstError.msg);
-    // Don't start countdown if everything failed
-  }else{
-    hideSbar();
+    if(i<CATS.length-1)await sleep(3000);
   }
+  saveCache();renderFeed();
+  document.getElementById('rbtn').classList.remove('spin');
+  if(successCount>0){hideSbar();const total=Object.values(news).flat().length;showToast(total+' articles loaded');startCountdown();}
+  else if(firstError){hideSbar();showError(firstError.cat,firstError.msg);}
+  else{hideSbar();}
 }
 
 window.addEventListener('load',()=>{
