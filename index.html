@@ -313,7 +313,7 @@ function setMarket(id, val, chg){
 
 async function fetchMarkets(){
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,tools:[{type:'web_search_20250305',name:'web_search'}],system:'Search for current market prices and return ONLY a JSON object (no markdown, no backticks, no explanation) with this exact structure: {"dow":{"val":"43,521","chg":"+0.4%"},"sp":{"val":"5,891","chg":"+0.3%"},"nasdaq":{"val":"18,234","chg":"+0.6%"},"ftse":{"val":"8,445","chg":"-0.1%"},"gold":{"val":"2,654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84,200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}. Use real current values from web search.',messages:[{role:'user',content:'Get me current stock market prices as JSON only, no other text.'}]})});
+    const r=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,tools:[{type:'web_search_20250305',name:'web_search'}],system:'Search for current market prices and return ONLY a JSON object (no markdown, no backticks, no explanation) with this exact structure: {"dow":{"val":"43,521","chg":"+0.4%"},"sp":{"val":"5,891","chg":"+0.3%"},"nasdaq":{"val":"18,234","chg":"+0.6%"},"ftse":{"val":"8,445","chg":"-0.1%"},"gold":{"val":"2,654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84,200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}. Use real current values from web search.',messages:[{role:'user',content:'Get me current stock market prices as JSON only, no other text.'}]})});
     const d=await r.json();
     const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
     const m=JSON.parse(txt);
@@ -340,7 +340,7 @@ async function fetchCategoryNews(cat){
   "urgency": "breaking|developing|analysis"
 }
 Use real, current breaking news from web search. Be specific with numbers, names, and facts.`;
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,tools:[{type:'web_search_20250305',name:'web_search'}],system:sys,messages:[{role:'user',content:`Search for the 4 most important ${catInfo.label} news stories happening right now. Return as JSON array only.`}]})});
+  const r=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,tools:[{type:'web_search_20250305',name:'web_search'}],system:sys,messages:[{role:'user',content:`Search for the 4 most important ${catInfo.label} news stories happening right now. Return as JSON array only.`}]})});
   const d=await r.json();
   const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
   const start=txt.indexOf('[');const end=txt.lastIndexOf(']');
