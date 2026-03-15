@@ -405,15 +405,283 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 <div id="toast"></div>
 
 <script>
-const CATS=[
-  {id:'markets',   label:'Markets & Finance',  color:'#b87010'},
-  {id:'world',     label:'World News',          color:'#1040a8'},
-  {id:'technology',label:'Technology',          color:'#107840'},
-  {id:'politics',  label:'Politics & Policy',  color:'#c02020'},
-  {id:'energy',    label:'Energy & Climate',   color:'#6018c8'},
-  {id:'business',  label:'Business & Economy', color:'#b84010'},
-  {id:'science',   label:'Science & Health',   color:'#0878a0'},
-  {id:'finance',   label:'Personal Finance',   color:'#107878'},
+
+// ── MULTILINGUAL SUPPORT ──
+const LANGS = {
+  en: {
+    logoTag:'World Business Intelligence · AI Powered · Updated Every 12 Hours',
+    live:'Live', forYou:'For You', markets:'Markets', world:'World',
+    technology:'Technology', politics:'Politics', energy:'Energy',
+    business:'Business', science:'Science & Health', finance:'Personal Finance',
+    feed:'Feed', search:'Search', saved:'Saved',
+    breaking:'Breaking', developing:'Developing', analysis:'Analysis',
+    liveMarkets:'Live Markets', nextRefresh:'Next Refresh In', updatedEvery:'Updated Every 12 Hours',
+    legal:'Legal', legalPolicies:'Legal & Policies',
+    searchPlaceholder:T.searchPlaceholder, noResults:T.noResults,
+    noSaved:T.noSaved, saveArticle:T.saveArticle, saved2:'Saved!',
+    disclaimer:'Disclaimer: Original AI-generated editorial content. Not financial advice.',
+    fullDisclaimer:'Full disclaimer →', close:T.close,
+    financialDisc:'Financial Disclaimer: Market data is indicative only. Not financial advice.',
+    loadingMsg:'Loading', articles:'articles', allStories:'All Stories',
+    justNow:T.justNow, today:T.today, loading:T.loading,
+    nextRefreshIn:T.nextRefreshIn,
+    footerDisc:'© 2026 EconomyConsumer.com · AI-generated editorial prose · Not financial advice · Not a regulated entity · Market data indicative only',
+  },
+  ar: {
+    logoTag:'ذكاء الأعمال العالمي · مدعوم بالذكاء الاصطناعي · يتحدث كل 12 ساعة',
+    live:'مباشر', forYou:'لك', markets:'الأسواق', world:'العالم',
+    technology:'التكنولوجيا', politics:'السياسة', energy:'الطاقة',
+    business:'الأعمال', science:'العلوم والصحة', finance:'المالية الشخصية',
+    feed:'الرئيسية', search:'بحث', saved:'محفوظ',
+    breaking:'عاجل', developing:'متطور', analysis:'تحليل',
+    liveMarkets:'الأسواق المباشرة', nextRefresh:'التحديث القادم', updatedEvery:'يتحدث كل 12 ساعة',
+    legal:'قانوني', legalPolicies:'السياسات القانونية',
+    searchPlaceholder:'ابحث في المقالات...', noResults:'لا توجد نتائج',
+    noSaved:'لا توجد مقالات محفوظة', saveArticle:'حفظ المقال', saved2:'تم الحفظ!',
+    disclaimer:'إخلاء مسؤولية: محتوى تحريري مُنشأ بالذكاء الاصطناعي. ليس نصيحة مالية.',
+    fullDisclaimer:'إخلاء المسؤولية الكامل →', close:'إغلاق',
+    financialDisc:'تنبيه مالي: بيانات السوق استرشادية فقط. ليست نصيحة مالية.',
+    loadingMsg:'تحميل', articles:'مقالات', allStories:'جميع القصص',
+    justNow:'الآن', today:'اليوم', loading:'جاري التحميل...',
+    nextRefreshIn:'التحديث التالي خلال',
+    footerDisc:'© 2026 EconomyConsumer.com · محتوى تحريري بالذكاء الاصطناعي · ليس نصيحة مالية',
+  },
+  fr: {
+    logoTag:'Intelligence Mondiale des Affaires · IA · Mise à jour toutes les 12h',
+    live:'En direct', forYou:'Pour vous', markets:'Marchés', world:'Monde',
+    technology:'Technologie', politics:'Politique', energy:'Énergie',
+    business:'Affaires', science:'Sciences & Santé', finance:'Finances personnelles',
+    feed:'Fil', search:'Recherche', saved:'Sauvegardé',
+    breaking:'Urgent', developing:'En cours', analysis:'Analyse',
+    liveMarkets:'Marchés en direct', nextRefresh:'Prochaine mise à jour', updatedEvery:'Mis à jour toutes les 12h',
+    legal:'Légal', legalPolicies:'Politiques légales',
+    searchPlaceholder:'Rechercher des articles...', noResults:'Aucun résultat',
+    noSaved:'Aucun article sauvegardé', saveArticle:'Sauvegarder', saved2:'Sauvegardé!',
+    disclaimer:'Avertissement: Contenu éditorial généré par IA. Pas de conseil financier.',
+    fullDisclaimer:'Clause complète →', close:'Fermer',
+    financialDisc:'Avertissement financier: Données indicatives uniquement. Pas de conseil financier.',
+    loadingMsg:'Chargement', articles:'articles', allStories:'Tous les articles',
+    justNow:'à l'instant', today:'aujourd'hui', loading:'Chargement...',
+    nextRefreshIn:'Prochaine actualisation dans',
+    footerDisc:'© 2026 EconomyConsumer.com · Contenu IA · Pas de conseil financier',
+  },
+  es: {
+    logoTag:'Inteligencia Empresarial Global · IA · Actualizado cada 12 horas',
+    live:'En vivo', forYou:'Para ti', markets:'Mercados', world:'Mundo',
+    technology:'Tecnología', politics:'Política', energy:'Energía',
+    business:'Negocios', science:'Ciencia y Salud', finance:'Finanzas personales',
+    feed:'Feed', search:'Buscar', saved:'Guardado',
+    breaking:'Urgente', developing:'Desarrollando', analysis:'Análisis',
+    liveMarkets:'Mercados en vivo', nextRefresh:'Próxima actualización', updatedEvery:'Actualizado cada 12 horas',
+    legal:'Legal', legalPolicies:'Políticas legales',
+    searchPlaceholder:'Buscar artículos...', noResults:'Sin resultados',
+    noSaved:'No hay artículos guardados', saveArticle:'Guardar artículo', saved2:'¡Guardado!',
+    disclaimer:'Aviso: Contenido editorial generado por IA. No es asesoramiento financiero.',
+    fullDisclaimer:'Aviso completo →', close:'Cerrar',
+    financialDisc:'Aviso financiero: Datos de mercado indicativos. No es asesoramiento financiero.',
+    loadingMsg:'Cargando', articles:'artículos', allStories:'Todos los artículos',
+    justNow:'ahora mismo', today:'hoy', loading:'Cargando...',
+    nextRefreshIn:'Próxima actualización en',
+    footerDisc:'© 2026 EconomyConsumer.com · Contenido IA · No asesoramiento financiero',
+  },
+  de: {
+    logoTag:'Globale Wirtschaftsintelligenz · KI · Alle 12 Stunden aktualisiert',
+    live:'Live', forYou:'Für Sie', markets:'Märkte', world:'Welt',
+    technology:'Technologie', politics:'Politik', energy:'Energie',
+    business:'Wirtschaft', science:'Wissenschaft & Gesundheit', finance:'Persönliche Finanzen',
+    feed:'Feed', search:'Suche', saved:'Gespeichert',
+    breaking:'Eilmeldung', developing:'Entwicklung', analysis:'Analyse',
+    liveMarkets:'Live-Märkte', nextRefresh:'Nächste Aktualisierung', updatedEvery:'Alle 12 Stunden aktualisiert',
+    legal:'Rechtliches', legalPolicies:'Rechtliche Richtlinien',
+    searchPlaceholder:'Artikel suchen...', noResults:'Keine Ergebnisse',
+    noSaved:'Keine gespeicherten Artikel', saveArticle:'Artikel speichern', saved2:'Gespeichert!',
+    disclaimer:'Haftungsausschluss: KI-generierter Inhalt. Keine Finanzberatung.',
+    fullDisclaimer:'Vollständiger Haftungsausschluss →', close:'Schließen',
+    financialDisc:'Finanzhinweis: Marktdaten nur indikativ. Keine Finanzberatung.',
+    loadingMsg:'Laden', articles:'Artikel', allStories:'Alle Artikel',
+    justNow:'gerade eben', today:'heute', loading:'Wird geladen...',
+    nextRefreshIn:'Nächste Aktualisierung in',
+    footerDisc:'© 2026 EconomyConsumer.com · KI-Inhalt · Keine Finanzberatung',
+  },
+  zh: {
+    logoTag:'全球商业智能 · 人工智能驱动 · 每12小时更新',
+    live:'实时', forYou:'为您', markets:'市场', world:'国际',
+    technology:'科技', politics:'政治', energy:'能源',
+    business:'商业', science:'科学与健康', finance:'个人理财',
+    feed:'信息流', search:'搜索', saved:'已保存',
+    breaking:'突发', developing:'进展中', analysis:'分析',
+    liveMarkets:'实时市场', nextRefresh:'下次更新', updatedEvery:'每12小时更新',
+    legal:'法律', legalPolicies:'法律政策',
+    searchPlaceholder:'搜索文章...', noResults:'无结果',
+    noSaved:'暂无保存的文章', saveArticle:'保存文章', saved2:'已保存！',
+    disclaimer:'免责声明：AI生成的编辑内容，不构成金融建议。',
+    fullDisclaimer:'完整免责声明 →', close:'关闭',
+    financialDisc:'金融免责声明：市场数据仅供参考，不构成投资建议。',
+    loadingMsg:'加载中', articles:'篇文章', allStories:'所有文章',
+    justNow:'刚刚', today:'今天', loading:'加载中...',
+    nextRefreshIn:'下次12小时刷新倒计时',
+    footerDisc:'© 2026 EconomyConsumer.com · AI生成内容 · 非金融建议',
+  },
+  hi: {
+    logoTag:'वैश्विक व्यापार बुद्धिमत्ता · AI संचालित · हर 12 घंटे अपडेट',
+    live:'लाइव', forYou:'आपके लिए', markets:'बाज़ार', world:'विश्व',
+    technology:'प्रौद्योगिकी', politics:'राजनीति', energy:'ऊर्जा',
+    business:'व्यापार', science:'विज्ञान और स्वास्थ्य', finance:'व्यक्तिगत वित्त',
+    feed:'फीड', search:'खोज', saved:'सहेजा',
+    breaking:'ब्रेकिंग', developing:'विकासशील', analysis:'विश्लेषण',
+    liveMarkets:'लाइव बाज़ार', nextRefresh:'अगला अपडेट', updatedEvery:'हर 12 घंटे अपडेट',
+    legal:'कानूनी', legalPolicies:'कानूनी नीतियां',
+    searchPlaceholder:'लेख खोजें...', noResults:'कोई परिणाम नहीं',
+    noSaved:'कोई सहेजा लेख नहीं', saveArticle:'लेख सहेजें', saved2:'सहेजा गया!',
+    disclaimer:'अस्वीकरण: AI-जनित संपादकीय सामग्री। वित्तीय सलाह नहीं।',
+    fullDisclaimer:'पूर्ण अस्वीकरण →', close:'बंद करें',
+    financialDisc:'वित्तीय अस्वीकरण: बाज़ार डेटा केवल संकेतक। वित्तीय सलाह नहीं।',
+    loadingMsg:'लोड हो रहा', articles:'लेख', allStories:'सभी लेख',
+    justNow:'अभी', today:'आज', loading:'लोड हो रहा...',
+    nextRefreshIn:'अगले 12-घंटे अपडेट में',
+    footerDisc:'© 2026 EconomyConsumer.com · AI सामग्री · वित्तीय सलाह नहीं',
+  },
+  pt: {
+    logoTag:'Inteligência Empresarial Global · IA · Atualizado a cada 12 horas',
+    live:'Ao vivo', forYou:'Para você', markets:'Mercados', world:'Mundo',
+    technology:'Tecnologia', politics:'Política', energy:'Energia',
+    business:'Negócios', science:'Ciência & Saúde', finance:'Finanças pessoais',
+    feed:'Feed', search:'Pesquisar', saved:'Salvo',
+    breaking:'Urgente', developing:'Desenvolvendo', analysis:'Análise',
+    liveMarkets:'Mercados ao vivo', nextRefresh:'Próxima atualização', updatedEvery:'Atualizado a cada 12 horas',
+    legal:'Legal', legalPolicies:'Políticas legais',
+    searchPlaceholder:'Pesquisar artigos...', noResults:'Sem resultados',
+    noSaved:'Nenhum artigo salvo', saveArticle:'Salvar artigo', saved2:'Salvo!',
+    disclaimer:'Aviso: Conteúdo editorial gerado por IA. Não é conselho financeiro.',
+    fullDisclaimer:'Aviso completo →', close:'Fechar',
+    financialDisc:'Aviso financeiro: Dados indicativos apenas. Não é conselho financeiro.',
+    loadingMsg:'Carregando', articles:'artigos', allStories:'Todos os artigos',
+    justNow:'agora mesmo', today:'hoje', loading:'Carregando...',
+    nextRefreshIn:'Próxima atualização em',
+    footerDisc:'© 2026 EconomyConsumer.com · Conteúdo IA · Não é conselho financeiro',
+  },
+  ru: {
+    logoTag:'Глобальная бизнес-аналитика · ИИ · Обновляется каждые 12 часов',
+    live:'Прямой эфир', forYou:'Для вас', markets:'Рынки', world:'Мир',
+    technology:'Технологии', politics:'Политика', energy:'Энергетика',
+    business:'Бизнес', science:'Наука и здоровье', finance:'Личные финансы',
+    feed:'Лента', search:'Поиск', saved:'Сохранено',
+    breaking:'Срочно', developing:'В развитии', analysis:'Анализ',
+    liveMarkets:'Рынки онлайн', nextRefresh:'Следующее обновление', updatedEvery:'Обновляется каждые 12 часов',
+    legal:'Правовая информация', legalPolicies:'Правовые политики',
+    searchPlaceholder:'Поиск статей...', noResults:'Нет результатов',
+    noSaved:'Нет сохранённых статей', saveArticle:'Сохранить статью', saved2:'Сохранено!',
+    disclaimer:'Отказ от ответственности: ИИ-сгенерированный контент. Не финансовый совет.',
+    fullDisclaimer:'Полный отказ →', close:'Закрыть',
+    financialDisc:'Финансовый отказ: Данные рынка индикативны. Не финансовый совет.',
+    loadingMsg:'Загрузка', articles:'статей', allStories:'Все статьи',
+    justNow:'только что', today:'сегодня', loading:'Загрузка...',
+    nextRefreshIn:'Следующее обновление через',
+    footerDisc:'© 2026 EconomyConsumer.com · ИИ-контент · Не финансовый совет',
+  },
+  tr: {
+    logoTag:'Küresel İş Zekası · Yapay Zeka · Her 12 Saatte Güncellenir',
+    live:'Canlı', forYou:'Sizin için', markets:'Piyasalar', world:'Dünya',
+    technology:'Teknoloji', politics:'Siyaset', energy:'Enerji',
+    business:'İş Dünyası', science:'Bilim & Sağlık', finance:'Kişisel Finans',
+    feed:'Akış', search:'Ara', saved:'Kaydedildi',
+    breaking:'Son Dakika', developing:'Gelişiyor', analysis:'Analiz',
+    liveMarkets:'Canlı Piyasalar', nextRefresh:'Sonraki Güncelleme', updatedEvery:'Her 12 Saatte Güncellenir',
+    legal:'Yasal', legalPolicies:'Yasal Politikalar',
+    searchPlaceholder:'Makale ara...', noResults:'Sonuç yok',
+    noSaved:'Kayıtlı makale yok', saveArticle:'Makaleyi kaydet', saved2:'Kaydedildi!',
+    disclaimer:'Sorumluluk reddi: AI tarafından oluşturulan içerik. Finansal tavsiye değildir.',
+    fullDisclaimer:'Tam sorumluluk reddi →', close:'Kapat',
+    financialDisc:'Finansal uyarı: Piyasa verileri gösterge niteliğindedir. Finansal tavsiye değildir.',
+    loadingMsg:'Yükleniyor', articles:'makale', allStories:'Tüm Haberler',
+    justNow:'şimdi', today:'bugün', loading:'Yükleniyor...',
+    nextRefreshIn:'Sonraki 12 saatlik yenileme',
+    footerDisc:'© 2026 EconomyConsumer.com · AI içeriği · Finansal tavsiye değildir',
+  },
+};
+
+// Auto-detect language from browser
+function detectLang(){
+  const nav = navigator.language || navigator.userLanguage || 'en';
+  const code = nav.toLowerCase().split('-')[0];
+  return LANGS[code] ? code : 'en';
+}
+
+const LANG_CODE = detectLang();
+const T = LANGS[LANG_CODE] || LANGS.en;
+
+// Apply RTL for Arabic
+if(LANG_CODE === 'ar'){
+  document.documentElement.setAttribute('dir','rtl');
+  document.documentElement.setAttribute('lang','ar');
+  // Add RTL style
+  const rtlStyle = document.createElement('style');
+  rtlStyle.textContent = 'body{direction:rtl;text-align:right}.sc::before{left:auto;right:0;border-radius:0 2px 2px 0}.hero-ft,.sc-ft,.hdr-r{flex-direction:row-reverse}.mbar{flex-direction:row-reverse}';
+  document.head.appendChild(rtlStyle);
+}else{
+  document.documentElement.setAttribute('lang', LANG_CODE);
+}
+
+// Apply translations to static HTML
+function applyTranslations(){
+  document.querySelector('.logo-tag').textContent = T.logoTag;
+  document.querySelector('.ltxt').textContent = T.live;
+
+  // Nav tabs
+  document.querySelectorAll('[data-c]').forEach(el => {
+    const map = {all:T.forYou, markets:T.markets, world:T.world, technology:T.technology,
+      politics:T.politics, energy:T.energy, business:T.business, science:T.science, finance:T.finance};
+    if(map[el.dataset.c]) el.textContent = map[el.dataset.c];
+  });
+
+  // Bottom tabs
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const lbl = el.querySelector('.tb-lbl, .dt');
+    if(!lbl) return;
+    const map = {feed:T.feed, markets:T.markets, search:T.search, saved:T.saved};
+    if(map[el.dataset.t]) lbl.textContent = map[el.dataset.t];
+  });
+
+  // Desktop tabs text
+  document.querySelectorAll('.dt').forEach(el => {
+    const icons = {'⚡':'⚡ '+T.feed,'📈':'📈 '+T.markets,'🔍':'🔍 '+T.search,'🔖':'🔖 '+T.saved};
+    const icon = el.textContent.slice(0,2);
+    if(icons[icon]) el.textContent = icons[icon];
+  });
+
+  // Bottom tab labels
+  document.querySelectorAll('.tb').forEach(el => {
+    const lbl = el.querySelector('.tb-lbl');
+    if(!lbl)return;
+    const map = {feed:T.feed, markets:T.markets, search:T.search, saved:T.saved};
+    if(el.dataset.t && map[el.dataset.t]) lbl.textContent = map[el.dataset.t];
+  });
+
+  // Sidebar titles
+  const sbtitles = document.querySelectorAll('.sbt');
+  if(sbtitles[0]) sbtitles[0].textContent = T.liveMarkets;
+  if(sbtitles[1]) sbtitles[1].textContent = T.legalPolicies;
+
+  // Sidebar countdown
+  const cdlbl = document.querySelector('.sb-cd-lbl');
+  if(cdlbl) cdlbl.textContent = T.nextRefresh;
+  const cdsub = document.querySelector('.sb-cd-wrap div:last-child');
+  if(cdsub) cdsub.textContent = T.updatedEvery;
+
+  // Footer
+  const fdisc = document.querySelector('.fdisc');
+  if(fdisc) fdisc.textContent = T.footerDisc;
+}
+
+const CATS=()=>[
+  {id:'markets',   label:T.markets,   color:'#b87010'},
+  {id:'world',     label:T.world,     color:'#1040a8'},
+  {id:'technology',label:T.technology,color:'#107840'},
+  {id:'politics',  label:T.politics,  color:'#c02020'},
+  {id:'energy',    label:T.energy,    color:'#6018c8'},
+  {id:'business',  label:T.business,  color:'#b84010'},
+  {id:'science',   label:T.science,   color:'#0878a0'},
+  {id:'finance',   label:T.finance,   color:'#107878'},
 ];
 const BGS=['135deg,#1a3a5c,#2a6aaf','135deg,#1a4a2e,#2a8a5e','135deg,#4a1a5c,#7a3aad','135deg,#5c1a1a,#af2a2a','135deg,#2a1a4a,#5a3aad','135deg,#3a2a1a,#8a5a2a','135deg,#0a2a4a,#1a6a9a','135deg,#0a3a3a,#1a7878'];
 const CK='ec_v11';
@@ -443,33 +711,13 @@ function setM(id,val,chg){
 }
 
 async function fetchMarkets(){
-  // Use free Yahoo Finance query to get market data - no API key needed, no rate limit impact
-  const symbols=[
-    {id:'dow',  sym:'^DJI'},
-    {id:'sp',   sym:'^GSPC'},
-    {id:'nq',   sym:'^IXIC'},
-    {id:'ftse', sym:'^FTSE'},
-    {id:'gold', sym:'GC=F', prefix:'$'},
-    {id:'oil',  sym:'CL=F', prefix:'$'},
-    {id:'btc',  sym:'BTC-USD', prefix:'$'},
-    {id:'eur',  sym:'EURUSD=X'},
-  ];
-  for(const sym of symbols){
-    try{
-      const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym.sym}?interval=1d&range=1d`,{headers:{'Accept':'application/json'}});
-      if(!r.ok)continue;
-      const d=await r.json();
-      const q=d?.chart?.result?.[0]?.meta;
-      if(!q)continue;
-      const price=q.regularMarketPrice||q.previousClose;
-      const prev=q.chartPreviousClose||q.previousClose;
-      const chg=price&&prev?((price-prev)/prev*100):0;
-      const fmt=price>1000?price.toLocaleString('en-US',{maximumFractionDigits:0}):price.toFixed(2);
-      const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
-      setM(sym.id,(sym.prefix||'')+fmt,chgStr);
-    }catch(e){}
-  }
-  if(curTab==='markets')renderMarkets();
+  try{
+    const r=await fetch('/api/markets');
+    if(!r.ok)return;
+    const m=await r.json();
+    Object.entries(m).forEach(([id,v])=>setM(id,v.val,v.chg));
+    if(curTab==='markets')renderMarkets();
+  }catch(e){console.error('markets',e.message);}
 }
 
 async function fetchCat(cat){
@@ -515,7 +763,7 @@ function showError(cat, errMsg){
 
 function renderFeed(){
   if(curTab!=='feed')return;
-  const cats=curCat==='all'?CATS:CATS.filter(c=>c.id===curCat);
+  const cats=curCat==='all'?CATS():CATS().filter(c=>c.id===curCat);
   let h='';
 
   let brk=null;
@@ -544,7 +792,7 @@ function renderFeed(){
   if(curCat==='all'){
     if(cats.length>1){
       const c2=cats[1];const s2=news[c2.id]||[];
-      h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${c2.color}"></div>${c2.label}</div><div class="sec-cnt">${s2.length||'Loading...'}</div></div>`;
+      h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${c2.color}"></div>${c2.label}</div><div class="sec-cnt">${s2.length||T.loading}</div></div>`;
       if(s2.length){
         h+=`<div class="hscroll">`;
         s2.forEach(s=>{h+=`<div class="hc" onclick="openStory(${esc(s)})"><div class="hc-cat" style="color:${c2.color}">${s.urgency.toUpperCase()}</div><div class="hc-hl">${s.headline}</div><div class="hc-sum">${s.summary}</div><div class="hc-src">${s.source}${s.age?` · ${s.age}`:''}</div></div>`;});
@@ -555,10 +803,10 @@ function renderFeed(){
     }
     cats.slice(2).forEach(cat=>{
       const st=news[cat.id]||[];
-      h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>${cat.label}</div><div class="sec-cnt">${st.length?st.length+' articles':'Loading...'}</div></div>`;
+      h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>${cat.label}</div><div class="sec-cnt">${st.length?st.length+' '+T.articles:T.loading}</div></div>`;
       h+=`<div class="slist">`;
       if(st.length){
-        st.slice(0,4).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div></div>`;});
+        st.slice(0,4).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||T.today}</div></div></div>`;});
       }else{
         h+=`${[0,1].map(()=>`<div class="skc"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
       }
@@ -566,10 +814,10 @@ function renderFeed(){
     });
   }else{
     const cat=cats[0];const st=news[cat.id]||[];
-    h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>All ${cat.label} Stories</div><div class="sec-cnt">${st.length?st.length+' articles':'Loading...'}</div></div>`;
+    h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>All ${cat.label} Stories</div><div class="sec-cnt">${st.length?st.length+' '+T.articles:T.loading}</div></div>`;
     h+=`<div class="slist">`;
     if(st.length){
-      st.slice(1).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div></div>`;});
+      st.slice(1).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||T.today}</div></div></div>`;});
     }else{
       h+=`${[0,1,2,3,4,5].map(()=>`<div class="skc"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
     }
@@ -601,7 +849,7 @@ function openStory(s){
   ov.onclick=closeSheet;
   bx.querySelector('#sv-btn').onclick=()=>{
     if(!saved.find(a=>a.headline===s.headline)){saved.push(s);try{localStorage.setItem('ec_saved',JSON.stringify(saved));}catch(e){}}
-    bx.querySelector('#sv-btn').textContent='✓ Saved!';showToast('Saved to bookmarks');
+    bx.querySelector('#sv-btn').textContent='✓ '+T.saved2;showToast(T.saved2);
   };
   window._cs=()=>{bx.classList.remove('open');setTimeout(()=>{ov.remove();bx.remove();},350);};
 }
@@ -636,7 +884,7 @@ function renderMarkets(){
   ids.forEach((id,i)=>{const v=document.getElementById('v-'+id)?.textContent||'—',c=document.getElementById('c-'+id)?.textContent||'—';h+=`<div class="mg"><div class="mg-n">${names[i]}</div><div class="mg-v">${v}</div><div class="mg-c ${c.startsWith('-')?'dn':'up'}">${c}</div></div>`;});
   h+=`</div>`;
   const ms=news['markets']||[];
-  if(ms.length){h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:#b87010"></div>Market News</div><div class="sec-cnt">${ms.length} articles</div></div><div class="slist">`;ms.forEach(s=>{h+=`<div class="sc markets" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:#b87010"></div><div class="sc-src">${s.source}</div><div class="sc-age">${s.age||'today'}</div></div></div>`;});h+=`</div>`;}
+  if(ms.length){h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:#b87010"></div>Market News</div><div class="sec-cnt">${ms.length} articles</div></div><div class="slist">`;ms.forEach(s=>{h+=`<div class="sc markets" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:#b87010"></div><div class="sc-src">${s.source}</div><div class="sc-age">${s.age||T.today}</div></div></div>`;});h+=`</div>`;}
   h+=`<div style="background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:10px;padding:12px 14px;margin-top:20px;font-size:0.72rem;color:var(--ink2);line-height:1.6">⚠ <strong style="color:var(--gold)">Financial Disclaimer:</strong> Market data is indicative only and may be delayed. Not financial advice. <a href="/legal#financial" style="color:var(--gold)">Full disclaimer →</a></div>`;
   document.getElementById('feed').innerHTML=h;
 }
@@ -699,8 +947,8 @@ async function loadFresh(){
   document.getElementById('rbtn').classList.add('spin');
   // Fetch markets AFTER news to avoid rate limit competition
   let successCount=0,firstError=null;
-  for(let i=0;i<CATS.length;i++){
-    const cat=CATS[i];
+  const _CATS=CATS();for(let i=0;i<_CATS.length;i++){
+    const cat=_CATS[i];
     showSbar('Loading '+cat.label+' ('+( i+1)+'/'+CATS.length+')...');
     try{
       const s=await fetchCat(cat.id);
@@ -717,7 +965,7 @@ async function loadFresh(){
   if(successCount>0){
     hideSbar();
     const total=Object.values(news).flat().length;
-    showToast(total+' articles loaded');
+    showToast(total+' '+T.articles+' loaded');
     startCountdown();
     // Now fetch markets - rate limit pressure is gone
     fetchMarkets();
@@ -727,6 +975,7 @@ async function loadFresh(){
 }
 
 window.addEventListener('load',()=>{
+  applyTranslations();
   layout();
   const cached=loadCached();
   if(cached){
