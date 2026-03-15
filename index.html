@@ -7,7 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="EconomyConsumer">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="AI-powered global business and economy intelligence. Breaking news, live markets and analysis updated every 12 hours.">
 <title>EconomyConsumer — World Business Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,20 +16,19 @@
   --bg:#f5f3ef;--white:#fff;--card:#fff;
   --ink:#111010;--ink2:#44423f;--ink3:#888480;
   --rule:#e8e4dc;
-  --shadow:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.04);
-  --shadow-lg:0 2px 8px rgba(0,0,0,0.07),0 12px 32px rgba(0,0,0,0.06);
+  --sh:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.04);
+  --sh2:0 2px 8px rgba(0,0,0,0.07),0 12px 32px rgba(0,0,0,0.06);
   --gold:#b87010;--gold-bg:#fff8ed;--gold-bd:#fddea0;
   --red:#c02020;--red-bg:#fff2f0;--red-bd:#ffc8c4;
   --green:#107840;--green-bg:#f0faf4;--green-bd:#a0e0b8;
   --blue:#1040a8;--blue-bg:#eff3ff;--blue-bd:#b8ccf8;
-  --purple:#6018c8;--orange:#b84010;--teal:#0878a0;--teal-bg:#eef8ff;--teal-bd:#b0d8f0;
+  --purple:#6018c8;--orange:#b84010;--teal:#0878a0;
   --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
   --tab-h:62px;--r:14px;--rs:10px;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
 
-/* MOBILE */
 @media(max-width:767px){
   body{overflow:hidden}
   #spad{height:var(--safe-top);background:var(--white);position:fixed;top:0;left:0;right:0;z-index:100}
@@ -39,7 +37,6 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
   #fw{position:fixed;left:0;right:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   #tabbar{position:fixed;bottom:0;left:0;right:0;z-index:90}
 }
-/* DESKTOP */
 @media(min-width:768px){
   #spad,#mct,#tabbar{display:none}
   #hdr{position:sticky;top:0;z-index:90}
@@ -50,7 +47,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 /* HEADER */
 #hdr{background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--rule)}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px}
-.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--ink);line-height:1;letter-spacing:-0.01em;text-decoration:none;display:block}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--ink);line-height:1;text-decoration:none;display:block;letter-spacing:-0.01em}
 .logo b{color:var(--gold)}
 .logo-tag{font-family:'DM Mono',monospace;font-size:0.42rem;letter-spacing:0.18em;color:var(--ink3);text-transform:uppercase;margin-top:3px}
 .hdr-r{display:flex;align-items:center;gap:8px}
@@ -58,9 +55,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 .ldot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 .ltxt{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--green);font-weight:500}
-.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--ink2);text-decoration:none;transition:all 0.2s;box-shadow:var(--shadow)}
-.icon-btn:hover{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold)}
-.icon-btn:active{transform:scale(0.9)}
+.ibtn{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--ink2);text-decoration:none;transition:all 0.2s;box-shadow:var(--sh)}
+.ibtn:hover{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold)}
+.ibtn:active{transform:scale(0.9)}
 .spin{animation:spin 0.9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
@@ -75,15 +72,15 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 .up{color:var(--green)}.dn{color:var(--red)}
 
 /* DESKTOP NAV */
-.desk-nav{display:none}
+.dnav{display:none}
 @media(min-width:768px){
-  .desk-nav{display:flex;align-items:center;border-top:1px solid var(--rule);padding:0 18px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
-  .desk-nav::-webkit-scrollbar{display:none}
+  .dnav{display:flex;align-items:center;border-top:1px solid var(--rule);padding:0 18px;overflow-x:auto;scrollbar-width:none}
+  .dnav::-webkit-scrollbar{display:none}
   .dnt{font-size:0.7rem;font-weight:600;padding:10px 12px;color:var(--ink3);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.18s;white-space:nowrap}
   .dnt.on{color:var(--gold);border-bottom-color:var(--gold)}
   .dnt:hover{color:var(--ink)}
-  .dnt-legal{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-left:auto;padding:10px 0 10px 20px;text-decoration:none;transition:color 0.2s;white-space:nowrap}
-  .dnt-legal:hover{color:var(--gold)}
+  .dnt-l{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-left:auto;padding:10px 0 10px 20px;text-decoration:none;transition:color 0.2s;white-space:nowrap}
+  .dnt-l:hover{color:var(--gold)}
 }
 
 /* MOBILE TABS */
@@ -105,7 +102,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 
 /* PAGE */
 .page{max-width:1400px;margin:0 auto}
-@media(min-width:1024px){.page-inner{display:grid;grid-template-columns:1fr 285px;gap:0}}
+@media(min-width:1024px){.page-inner{display:grid;grid-template-columns:1fr 285px}}
 .main-col{padding:18px 18px 0}
 @media(min-width:768px){.main-col{padding:22px 22px 0}}
 
@@ -113,43 +110,50 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 .sidebar{display:none}
 @media(min-width:1024px){
   .sidebar{display:block;padding:22px 18px 0 0;position:sticky;top:80px;align-self:start}
-  .sb-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
-  .sb-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
-  .sb-mkt{display:flex;flex-direction:column;gap:7px}
+  .sbc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+  .sbt{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+  .sbm{display:flex;flex-direction:column;gap:7px}
   .smk{display:flex;align-items:center;justify-content:space-between}
   .smk-n{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.08em;color:var(--ink3);text-transform:uppercase}
   .smk-v{font-family:'DM Mono',monospace;font-size:0.66rem;color:var(--ink)}
   .smk-c{font-family:'DM Mono',monospace;font-size:0.54rem;font-weight:500}
-  .sb-legal{display:flex;flex-direction:column}
-  .sb-legal a{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);text-decoration:none;padding:7px 0;border-bottom:1px solid var(--rule);transition:color 0.2s}
-  .sb-legal a:last-child{border-bottom:none}
-  .sb-legal a:hover{color:var(--gold)}
+  .sbl{display:flex;flex-direction:column}
+  .sbl a{font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);text-decoration:none;padding:7px 0;border-bottom:1px solid var(--rule);transition:color 0.2s}
+  .sbl a:last-child{border-bottom:none}
+  .sbl a:hover{color:var(--gold)}
   .sb-disc{background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:var(--rs);padding:10px 12px;margin-top:12px;font-size:0.68rem;color:var(--ink2);line-height:1.55}
   .sb-disc strong{color:var(--gold);display:block;font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
-  .sb-refresh{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;text-align:center}
-  .sb-cd-label{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;margin-bottom:6px}
-  .sb-cd{font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--gold)}
-  .sb-cd-sub{font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;margin-top:4px}
+  .sb-cd-wrap{text-align:center;padding:4px 0}
+  .sb-cd-lbl{font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;margin-bottom:6px}
+  .sb-cd{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;color:var(--gold)}
 }
 
-/* DESK TABS */
-.desk-tabs{display:none}
+/* DESKTOP TABS */
+.dtabs{display:none}
 @media(min-width:768px){
-  .desk-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-  .dt{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.08em;text-transform:uppercase;padding:7px 14px;border-radius:20px;background:var(--card);border:1px solid var(--rule);color:var(--ink3);cursor:pointer;transition:all 0.18s;box-shadow:var(--shadow)}
+  .dtabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+  .dt{font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.08em;text-transform:uppercase;padding:7px 14px;border-radius:20px;background:var(--card);border:1px solid var(--rule);color:var(--ink3);cursor:pointer;transition:all 0.18s;box-shadow:var(--sh)}
   .dt.on{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold)}
   .dt:hover{color:var(--gold);border-color:var(--gold-bd)}
 }
 
+/* ERROR BOX — big and visible */
+.err-box{background:#fff2f0;border:2px solid #ffc8c4;border-radius:var(--r);padding:20px;margin-bottom:16px}
+.err-title{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);font-weight:500;margin-bottom:8px}
+.err-msg{font-size:0.84rem;color:var(--ink2);line-height:1.6;margin-bottom:12px;word-break:break-all}
+.err-fix{font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--ink2);background:rgba(192,32,32,0.06);border-radius:var(--rs);padding:10px 12px;line-height:1.7}
+.err-fix strong{color:var(--red);display:block;margin-bottom:4px}
+.err-link{font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--blue);text-decoration:none;display:block;margin-top:8px}
+
 /* BREAKING */
-.brk{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:12px;transition:opacity 0.15s}
+.brk{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:12px}
 .brk:active{opacity:0.8}
 .brk-tag{font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.12em;color:var(--red);background:rgba(192,32,32,0.08);border-radius:4px;padding:3px 7px;white-space:nowrap;flex-shrink:0;margin-top:2px;text-transform:uppercase;font-weight:500}
 .brk-txt{font-size:0.84rem;line-height:1.45;color:var(--ink);font-weight:600}
 
 /* HERO */
-.hero{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--rule);cursor:pointer;margin-bottom:14px;transition:transform 0.15s,box-shadow 0.15s}
-.hero:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,0,0,0.1)}
+.hero{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh2);border:1px solid var(--rule);cursor:pointer;margin-bottom:14px;transition:transform 0.15s}
+.hero:hover{transform:translateY(-2px)}
 .hero:active{transform:scale(0.985)}
 .hero-img{width:100%;height:185px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 @media(min-width:768px){.hero-img{height:250px}}
@@ -162,10 +166,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 @media(min-width:768px){.hero-hl{font-size:1.7rem}}
 .hero-sum{font-size:0.84rem;line-height:1.68;color:var(--ink2);margin-bottom:12px}
 .hero-ft{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.hero-meta{display:flex;align-items:center;gap:8px}
+.hero-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .hero-src{font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.06em;color:var(--ink3);text-transform:uppercase}
-.age-tag{font-family:'DM Mono',monospace;font-size:0.44rem;color:var(--ink3);background:var(--bg);border-radius:4px;padding:2px 6px}
-.read-tag{font-family:'DM Mono',monospace;font-size:0.44rem;color:var(--ink3);background:var(--bg);border-radius:4px;padding:2px 6px}
+.atag{font-family:'DM Mono',monospace;font-size:0.44rem;color:var(--ink3);background:var(--bg);border-radius:4px;padding:2px 6px}
 
 /* CHIPS */
 .chip{font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:20px;font-weight:500;white-space:nowrap}
@@ -182,21 +185,20 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 /* HSCROLL */
 .hscroll{overflow-x:auto;scrollbar-width:none;display:flex;gap:10px;margin-bottom:6px;padding-bottom:2px}
 .hscroll::-webkit-scrollbar{display:none}
-.hc{flex-shrink:0;width:210px;background:var(--card);border-radius:var(--rs);padding:13px;border:1px solid var(--rule);box-shadow:var(--shadow);cursor:pointer;transition:transform 0.15s}
+.hc{flex-shrink:0;width:210px;background:var(--card);border-radius:var(--rs);padding:13px;border:1px solid var(--rule);box-shadow:var(--sh);cursor:pointer;transition:transform 0.15s}
 .hc:hover{transform:translateY(-1px)}
 .hc:active{transform:scale(0.97)}
 .hc-cat{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px;font-weight:500}
-.hc-hl{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:7px}
+.hc-hl{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:6px}
 .hc-sum{font-size:0.72rem;line-height:1.5;color:var(--ink2);margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.hc-ft{display:flex;align-items:center;justify-content:space-between}
 .hc-src{font-family:'DM Mono',monospace;font-size:0.44rem;color:var(--ink3);text-transform:uppercase}
 
 /* STORY GRID */
 .slist{display:flex;flex-direction:column;gap:8px}
 @media(min-width:768px){.slist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}}
 @media(min-width:1280px){.slist{grid-template-columns:repeat(3,1fr)}}
-.sc{background:var(--card);border-radius:var(--rs);padding:14px 14px 12px 17px;border:1px solid var(--rule);box-shadow:var(--shadow);cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;position:relative;overflow:hidden}
-.sc:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.sc{background:var(--card);border-radius:var(--rs);padding:14px 14px 12px 17px;border:1px solid var(--rule);box-shadow:var(--sh);cursor:pointer;transition:transform 0.15s;position:relative;overflow:hidden}
+.sc:hover{transform:translateY(-1px)}
 .sc:active{transform:scale(0.984)}
 .sc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3.5px;border-radius:2px 0 0 2px}
 .sc.markets::before{background:var(--gold)}.sc.world::before{background:var(--blue)}.sc.technology::before{background:var(--green)}.sc.politics::before{background:var(--red)}.sc.energy::before{background:var(--purple)}.sc.business::before{background:var(--orange)}.sc.science::before{background:var(--teal)}.sc.finance::before{background:#107878}
@@ -212,19 +214,19 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 /* SKELETON */
 .sk{background:var(--rule);border-radius:5px;animation:sk 1.6s ease-in-out infinite}
 @keyframes sk{0%,100%{opacity:0.5}55%{opacity:1}}
-.sk1{height:1.2rem;width:90%;margin-bottom:8px}.sk2{height:0.85rem;width:66%;margin-bottom:10px}.sk3{height:0.72rem;width:100%;margin-bottom:5px}.sk4{height:0.72rem;width:76%;margin-bottom:3px}.sk5{height:0.72rem;width:88%;margin-bottom:5px}
-.skel-card{background:var(--card);border-radius:var(--rs);padding:14px;border:1px solid var(--rule);box-shadow:var(--shadow)}
+.sk1{height:1.2rem;width:90%;margin-bottom:8px}.sk2{height:0.85rem;width:66%;margin-bottom:10px}.sk3{height:0.72rem;width:100%;margin-bottom:5px}.sk4{height:0.72rem;width:76%}
+.skc{background:var(--card);border-radius:var(--rs);padding:14px;border:1px solid var(--rule);box-shadow:var(--sh)}
 
 /* MARKETS GRID */
 .mkt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media(min-width:768px){.mkt-grid{grid-template-columns:repeat(4,1fr)}}
-.mg{background:var(--card);border-radius:var(--rs);padding:13px;border:1px solid var(--rule);box-shadow:var(--shadow)}
+.mg{background:var(--card);border-radius:var(--rs);padding:13px;border:1px solid var(--rule);box-shadow:var(--sh)}
 .mg-n{font-family:'DM Mono',monospace;font-size:0.46rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;margin-bottom:5px}
 .mg-v{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:2px}
 .mg-c{font-family:'DM Mono',monospace;font-size:0.64rem;font-weight:500}
 
 /* SEARCH */
-.srch-w{background:var(--card);border:1px solid var(--rule);border-radius:var(--rs);display:flex;align-items:center;gap:10px;padding:12px 14px;margin-bottom:16px;box-shadow:var(--shadow)}
+.srch{background:var(--card);border:1px solid var(--rule);border-radius:var(--rs);display:flex;align-items:center;gap:10px;padding:12px 14px;margin-bottom:16px;box-shadow:var(--sh)}
 #sinput{flex:1;background:none;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:var(--ink);font-weight:500}
 #sinput::placeholder{color:var(--ink3)}
 .empty-s{display:flex;flex-direction:column;align-items:center;padding:80px 20px;gap:12px}
@@ -232,16 +234,16 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 .et{font-family:'DM Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;text-align:center}
 
 /* FOOTER */
-.site-footer{background:var(--ink);padding:28px 18px;margin-top:24px}
-.sf-inner{max-width:1400px;margin:0 auto}
-.sf-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.1)}
-.sf-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:#f0ece2}
-.sf-logo b{color:#c8900a}
-.sf-logo-tag{font-family:'DM Mono',monospace;font-size:0.4rem;letter-spacing:0.12em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px}
-.sf-links{display:flex;gap:10px 18px;flex-wrap:wrap}
-.sf-links a{font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
-.sf-links a:hover{color:#c8900a}
-.sf-disc{font-family:'DM Mono',monospace;font-size:0.42rem;letter-spacing:0.04em;text-transform:uppercase;color:rgba(255,255,255,0.25);line-height:1.9}
+.footer{background:var(--ink);padding:28px 18px;margin-top:24px}
+.fi{max-width:1400px;margin:0 auto}
+.ft{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.fl{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:#f0ece2}
+.fl b{color:#c8900a}
+.fl-tag{font-family:'DM Mono',monospace;font-size:0.4rem;letter-spacing:0.12em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-top:4px}
+.flinks{display:flex;gap:10px 18px;flex-wrap:wrap}
+.flinks a{font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
+.flinks a:hover{color:#c8900a}
+.fdisc{font-family:'DM Mono',monospace;font-size:0.42rem;letter-spacing:0.04em;text-transform:uppercase;color:rgba(255,255,255,0.25);line-height:1.9}
 
 /* COUNTDOWN */
 .feed-foot{padding:22px 0 28px;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -254,7 +256,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 @media(min-width:768px){#toast{bottom:20px}}
 
 /* SHEET */
-.s-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.38);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.s-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.38);backdrop-filter:blur(3px)}
 .s-bx{position:fixed;bottom:0;left:0;right:0;z-index:401;background:var(--white);border-radius:20px 20px 0 0;padding-bottom:calc(var(--safe-bot)+20px);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1)}
 .s-bx.open{transform:translateY(0)}
 @media(min-width:768px){.s-bx{max-width:600px;left:50%;transform:translateX(-50%) translateY(100%)}.s-bx.open{transform:translateX(-50%) translateY(0)}}
@@ -289,8 +291,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
     </div>
     <div class="hdr-r">
       <div class="live-badge"><div class="ldot"></div><div class="ltxt">Live</div></div>
-      <div class="icon-btn" id="rbtn" onclick="doRefresh()">↻</div>
-      <a href="/legal" class="icon-btn" title="Legal & Disclaimer">⚖</a>
+      <div class="ibtn" id="rbtn" onclick="doRefresh()">↻</div>
+      <a href="/legal" class="ibtn" title="Legal">⚖</a>
     </div>
   </div>
   <div class="mbar">
@@ -303,7 +305,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
     <div class="mi"><div class="mn">BTC</div><div class="mv" id="v-btc">—</div><div class="mc" id="c-btc">—</div></div>
     <div class="mi"><div class="mn">EUR/USD</div><div class="mv" id="v-eur">—</div><div class="mc" id="c-eur">—</div></div>
   </div>
-  <nav class="desk-nav" id="dnav">
+  <nav class="dnav" id="dnav">
     <div class="dnt on" data-c="all">For You</div>
     <div class="dnt" data-c="markets">Markets</div>
     <div class="dnt" data-c="world">World</div>
@@ -313,7 +315,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
     <div class="dnt" data-c="business">Business</div>
     <div class="dnt" data-c="science">Science & Health</div>
     <div class="dnt" data-c="finance">Personal Finance</div>
-    <a href="/legal" class="dnt-legal">⚖ Legal</a>
+    <a href="/legal" class="dnt-l">⚖ Legal</a>
   </nav>
 </header>
 
@@ -335,7 +337,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
   <div class="page">
     <div class="page-inner">
       <div class="main-col">
-        <div class="desk-tabs" id="dtabs">
+        <div class="dtabs" id="dtabs">
           <div class="dt on" data-t="feed">⚡ Feed</div>
           <div class="dt" data-t="markets">📈 Markets</div>
           <div class="dt" data-t="search">🔍 Search</div>
@@ -344,14 +346,16 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
         <div id="feed"></div>
       </div>
       <aside class="sidebar">
-        <div class="sb-card sb-refresh">
-          <div class="sb-cd-label">Next Refresh In</div>
-          <div class="sb-cd" id="sb-cd">12:00:00</div>
-          <div class="sb-cd-sub">Updated Every 12 Hours</div>
+        <div class="sbc">
+          <div class="sb-cd-wrap">
+            <div class="sb-cd-lbl">Next Refresh In</div>
+            <div class="sb-cd" id="sb-cd">12:00:00</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.44rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;margin-top:4px">Updated Every 12 Hours</div>
+          </div>
         </div>
-        <div class="sb-card">
-          <div class="sb-title">Live Markets</div>
-          <div class="sb-mkt">
+        <div class="sbc">
+          <div class="sbt">Live Markets</div>
+          <div class="sbm">
             <div class="smk"><div class="smk-n">Dow Jones</div><div><div class="smk-v" id="sv-dow">—</div><div class="smk-c" id="sc-dow">—</div></div></div>
             <div class="smk"><div class="smk-n">S&P 500</div><div><div class="smk-v" id="sv-sp">—</div><div class="smk-c" id="sc-sp">—</div></div></div>
             <div class="smk"><div class="smk-n">NASDAQ</div><div><div class="smk-v" id="sv-nq">—</div><div class="smk-c" id="sc-nq">—</div></div></div>
@@ -362,45 +366,32 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
             <div class="smk"><div class="smk-n">EUR/USD</div><div><div class="smk-v" id="sv-eur">—</div><div class="smk-c" id="sc-eur">—</div></div></div>
           </div>
         </div>
-        <div class="sb-card">
-          <div class="sb-title">Legal & Policies</div>
-          <div class="sb-legal">
+        <div class="sbc">
+          <div class="sbt">Legal & Policies</div>
+          <div class="sbl">
             <a href="/legal#disclaimer">Disclaimer</a>
             <a href="/legal#liability">Limitation of Liability</a>
             <a href="/legal#editorial">AI Editorial Policy</a>
-            <a href="/legal#copyright">Copyright Policy</a>
             <a href="/legal#financial">Financial Disclaimer</a>
             <a href="/legal#privacy">Privacy Policy</a>
-            <a href="/legal#cookies">Cookie Policy</a>
             <a href="/legal#terms">Terms of Use</a>
             <a href="/legal#contact">Contact</a>
           </div>
-          <div class="sb-disc"><strong>⚠ Important</strong>AI-generated editorial content. Not financial advice. For informational purposes only. Always seek professional advice.</div>
+          <div class="sb-disc"><strong>⚠ Important</strong>AI-generated editorial content. Not financial advice. Always seek professional advice.</div>
         </div>
       </aside>
     </div>
   </div>
 
-  <footer class="site-footer">
-    <div class="sf-inner">
-      <div class="sf-top">
-        <div>
-          <div class="sf-logo">Economy<b>Consumer</b></div>
-          <div class="sf-logo-tag">AI-Powered Global Business Intelligence · Independent Editorial · Updated Every 12 Hours</div>
-        </div>
-        <div class="sf-links">
-          <a href="/legal#disclaimer">Disclaimer</a>
-          <a href="/legal#liability">Liability</a>
-          <a href="/legal#financial">Financial Warning</a>
-          <a href="/legal#editorial">AI Policy</a>
-          <a href="/legal#privacy">Privacy Policy</a>
-          <a href="/legal#cookies">Cookies</a>
-          <a href="/legal#terms">Terms of Use</a>
-          <a href="/legal#contact">Contact</a>
-          <a href="/api/test">System Status</a>
+  <footer class="footer">
+    <div class="fi">
+      <div class="ft">
+        <div><div class="fl">Economy<b>Consumer</b></div><div class="fl-tag">AI-Powered Global Business Intelligence · Updated Every 12 Hours</div></div>
+        <div class="flinks">
+          <a href="/legal#disclaimer">Disclaimer</a><a href="/legal#liability">Liability</a><a href="/legal#financial">Financial Warning</a><a href="/legal#privacy">Privacy</a><a href="/legal#terms">Terms</a><a href="/legal#contact">Contact</a><a href="/api/test">System Status</a>
         </div>
       </div>
-      <div class="sf-disc">© 2026 EconomyConsumer.com · All content is original AI-generated editorial prose · Not financial advice · Not a regulated entity · Market data is indicative only and may be delayed · Always seek qualified professional advice before making investment or financial decisions · AI-generated content may contain errors — always verify independently</div>
+      <div class="fdisc">© 2026 EconomyConsumer.com · All content is original AI-generated editorial prose · Not financial advice · Not a regulated entity · Market data is indicative only · Always seek qualified professional advice before making financial decisions</div>
     </div>
   </footer>
 </div>
@@ -424,18 +415,17 @@ const CATS=[
   {id:'science',   label:'Science & Health',   color:'#0878a0'},
   {id:'finance',   label:'Personal Finance',   color:'#107878'},
 ];
-const HBGS=['135deg,#1a3a5c,#2a6aaf','135deg,#1a4a2e,#2a8a5e','135deg,#4a1a5c,#7a3aad','135deg,#5c1a1a,#af2a2a','135deg,#2a1a4a,#5a3aad','135deg,#3a2a1a,#8a5a2a','135deg,#0a2a4a,#1a6a9a','135deg,#0a3a3a,#1a7878'];
-const CACHE_KEY='ec_v10';
-const CACHE_AGE=12*60*60*1000; // 12 hours
-const REFRESH_SECS=12*60*60;   // 12 hours
+const BGS=['135deg,#1a3a5c,#2a6aaf','135deg,#1a4a2e,#2a8a5e','135deg,#4a1a5c,#7a3aad','135deg,#5c1a1a,#af2a2a','135deg,#2a1a4a,#5a3aad','135deg,#3a2a1a,#8a5a2a','135deg,#0a2a4a,#1a6a9a','135deg,#0a3a3a,#1a7878'];
+const CK='ec_v11';
+const CA=12*60*60*1000;
+const RS=12*60*60;
 
-let news={}, curCat='all', curTab='feed', cdSecs=REFRESH_SECS, cdTimer;
+let news={}, curCat='all', curTab='feed', cdSecs=RS, cdTimer;
 let saved=[];try{saved=JSON.parse(localStorage.getItem('ec_saved')||'[]');}catch(e){}
-
-const isMobile=()=>window.innerWidth<768;
+const mob=()=>window.innerWidth<768;
 
 function layout(){
-  if(!isMobile()){document.getElementById('fw').style.cssText='';return;}
+  if(!mob()){document.getElementById('fw').style.cssText='';return;}
   const hh=document.getElementById('hdr').offsetHeight;
   const mh=document.getElementById('mct').offsetHeight;
   const sbh=document.getElementById('sbar').classList.contains('show')?document.getElementById('sbar').offsetHeight:0;
@@ -443,12 +433,11 @@ function layout(){
   fw.style.cssText=`position:fixed;left:0;right:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;top:calc(var(--safe-top) + ${hh+mh+sbh}px);bottom:calc(var(--tab-h) + var(--safe-bot))`;
 }
 
-const showStatus=msg=>{const s=document.getElementById('sbar');s.textContent=msg;s.classList.add('show');layout();};
-const hideStatus=()=>{document.getElementById('sbar').classList.remove('show');layout();};
+const showSbar=m=>{const s=document.getElementById('sbar');s.textContent=m;s.classList.add('show');layout();};
+const hideSbar=()=>{document.getElementById('sbar').classList.remove('show');layout();};
 
 function setM(id,val,chg){
   const up=!chg.startsWith('-');
-  document.getElementById('v-'+id)?.setText?.(val);
   [document.getElementById('v-'+id),document.getElementById('sv-'+id)].forEach(e=>{if(e)e.textContent=val;});
   [['c-','mc'],['sc-','smk-c']].forEach(([p,c])=>{const e=document.getElementById(p+id);if(e){e.textContent=chg;e.className=c+' '+(up?'up':'dn');}});
 }
@@ -458,8 +447,8 @@ async function fetchMarkets(){
     const r=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       model:'claude-haiku-4-5-20251001',max_tokens:400,
       tools:[{type:'web_search_20250305',name:'web_search'}],
-      system:'Search for current live stock market prices right now. Return ONLY a raw JSON object, no markdown, no backticks, nothing before or after the JSON: {"dow":{"val":"43521","chg":"+0.4%"},"sp":{"val":"5891","chg":"+0.3%"},"nasdaq":{"val":"18234","chg":"+0.6%"},"ftse":{"val":"8445","chg":"-0.1%"},"gold":{"val":"2654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}',
-      messages:[{role:'user',content:'Search for current live market prices now. Return only the JSON object, nothing else.'}]
+      system:'Search for current live market prices. Return ONLY a raw JSON object with no markdown, no backticks, nothing else: {"dow":{"val":"43521","chg":"+0.4%"},"sp":{"val":"5891","chg":"+0.3%"},"nasdaq":{"val":"18234","chg":"+0.6%"},"ftse":{"val":"8445","chg":"-0.1%"},"gold":{"val":"2654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}',
+      messages:[{role:'user',content:'Search for current live market prices now. Return JSON only.'}]
     })});
     const d=await r.json();
     if(d.type==='error')return;
@@ -477,102 +466,103 @@ async function fetchMarkets(){
 async function fetchCat(cat){
   const r=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({_category:cat})});
   const d=await r.json();
-  if(d.type==='error')throw new Error(d.error?.message||d.error?.type||'API error: '+JSON.stringify(d.error));
+  if(d.type==='error'){
+    throw new Error('API Error: '+d.error?.type+' — '+d.error?.message);
+  }
   const txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
-  if(!txt)throw new Error('No text block. Block types: '+((d.content||[]).map(b=>b.type).join(',')));
+  if(!txt){
+    const types=(d.content||[]).map(b=>b.type).join(', ');
+    throw new Error('No text in response. Block types: ['+types+']. Stop reason: '+d.stop_reason);
+  }
   const s=txt.indexOf('['),e=txt.lastIndexOf(']');
-  if(s<0||e<0)throw new Error('No JSON array found. Response start: '+txt.slice(0,150));
+  if(s<0||e<0)throw new Error('No JSON array. Got: "'+txt.slice(0,200)+'"');
   return JSON.parse(txt.slice(s,e+1));
 }
 
 const chip=u=>`<div class="chip chip-${u==='breaking'?'b':u==='developing'?'d':'a'}">${u}</div>`;
 const esc=s=>JSON.stringify(s).replace(/"/g,'&quot;');
 
+// Show error prominently on screen
+function showError(cat, errMsg){
+  const feed=document.getElementById('feed');
+  const existing=feed.querySelector('.err-box');
+  const errHtml=`<div class="err-box">
+    <div class="err-title">⚠ Failed to load ${cat} news</div>
+    <div class="err-msg">${errMsg}</div>
+    <div class="err-fix">
+      <strong>How to fix:</strong>
+      1. Visit <a class="err-link" href="/api/test" target="_blank">/api/test</a> to see what's wrong<br>
+      2. Check Vercel → Settings → Environment Variables — is ANTHROPIC_API_KEY set?<br>
+      3. Go to console.anthropic.com → API Keys — is your key active?<br>
+      4. After fixing, click the ↻ refresh button above
+    </div>
+  </div>`;
+  if(!existing){
+    feed.insertAdjacentHTML('afterbegin', errHtml);
+  }else{
+    existing.outerHTML = errHtml;
+  }
+}
+
 function renderFeed(){
   if(curTab!=='feed')return;
   const cats=curCat==='all'?CATS:CATS.filter(c=>c.id===curCat);
   let h='';
 
-  // Breaking banner
   let brk=null;
   for(const c of cats){if(!brk&&news[c.id]){brk=news[c.id].find(s=>s.urgency==='breaking');if(brk)break;}}
   if(brk)h+=`<div class="brk" onclick="openStory(${esc(brk)})"><div class="brk-tag">⚡ Breaking</div><div class="brk-txt">${brk.headline}</div></div>`;
 
-  // Hero — biggest story
   let hero=null,hcat=null;
   for(const c of cats){if(!hero&&news[c.id]?.length){hero=news[c.id][0];hcat=c;break;}}
   if(hero){
     const idx=CATS.findIndex(c=>c.id===hcat.id);
     h+=`<div class="hero" onclick="openStory(${esc(hero)})">
-      <div class="hero-img"><div class="hero-bg" style="background:linear-gradient(${HBGS[idx%HBGS.length]})"></div><div class="hero-l">EC</div><div class="hero-fade"></div></div>
+      <div class="hero-img"><div class="hero-bg" style="background:linear-gradient(${BGS[idx%BGS.length]})"></div><div class="hero-l">EC</div><div class="hero-fade"></div></div>
       <div class="hero-body">
         <div class="hero-kicker" style="color:${hcat.color}">${hcat.label} · ${hero.urgency.toUpperCase()}</div>
         <div class="hero-hl">${hero.headline}</div>
         <div class="hero-sum">${hero.summary}</div>
         <div class="hero-ft">
-          <div class="hero-meta">
-            <span class="hero-src">${hero.source}</span>
-            ${hero.age?`<span class="age-tag">${hero.age}</span>`:''}
-            ${hero.readTime?`<span class="read-tag">${hero.readTime}</span>`:''}
-          </div>
+          <div class="hero-meta"><span class="hero-src">${hero.source}</span>${hero.age?`<span class="atag">${hero.age}</span>`:''}</div>
           ${chip(hero.urgency)}
         </div>
       </div></div>`;
   }else{
-    h+=`<div class="hero"><div style="padding:20px"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk5"></div><div class="sk sk4"></div></div></div>`;
+    h+=`<div class="hero"><div style="padding:20px"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div></div>`;
   }
 
-  // For "all" view: first cat hscroll, then rest as grids
-  // For specific cat: show all 8 articles
   if(curCat==='all'){
-    // 2nd cat as horizontal scroll
     if(cats.length>1){
       const c2=cats[1];const s2=news[c2.id]||[];
       h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${c2.color}"></div>${c2.label}</div><div class="sec-cnt">${s2.length||'Loading...'}</div></div>`;
       if(s2.length){
         h+=`<div class="hscroll">`;
-        s2.forEach(s=>{h+=`<div class="hc" onclick="openStory(${esc(s)})"><div class="hc-cat" style="color:${c2.color}">${s.urgency.toUpperCase()}</div><div class="hc-hl">${s.headline}</div><div class="hc-sum">${s.summary}</div><div class="hc-ft"><div class="hc-src">${s.source}</div>${s.age?`<span class="age-tag">${s.age}</span>`:''}</div></div>`;});
+        s2.forEach(s=>{h+=`<div class="hc" onclick="openStory(${esc(s)})"><div class="hc-cat" style="color:${c2.color}">${s.urgency.toUpperCase()}</div><div class="hc-hl">${s.headline}</div><div class="hc-sum">${s.summary}</div><div class="hc-src">${s.source}${s.age?` · ${s.age}`:''}</div></div>`;});
         h+=`</div>`;
       }else{
-        h+=`<div class="hscroll">${[0,1,2,3].map(()=>`<div class="skel-card" style="flex-shrink:0;width:210px"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}</div>`;
+        h+=`<div class="hscroll">${[0,1,2,3].map(()=>`<div class="skc" style="flex-shrink:0;width:210px"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}</div>`;
       }
     }
-
-    // Remaining cats as grids — show top 4 each
     cats.slice(2).forEach(cat=>{
       const st=news[cat.id]||[];
       h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>${cat.label}</div><div class="sec-cnt">${st.length?st.length+' articles':'Loading...'}</div></div>`;
       h+=`<div class="slist">`;
       if(st.length){
-        st.slice(0,4).forEach(s=>{
-          h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})">
-            <div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div>
-            <div class="sc-sum">${s.summary}</div>
-            <div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div>
-          </div>`;
-        });
+        st.slice(0,4).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div></div>`;});
       }else{
-        h+=`${[0,1,2].map(()=>`<div class="skel-card"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
+        h+=`${[0,1].map(()=>`<div class="skc"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
       }
       h+=`</div>`;
     });
-
   }else{
-    // Single category — show ALL 8 articles
-    const cat=cats[0];
-    const st=news[cat.id]||[];
-    h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>All ${cat.label} Stories</div><div class="sec-cnt">${st.length||'Loading...'}</div></div>`;
+    const cat=cats[0];const st=news[cat.id]||[];
+    h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:${cat.color}"></div>All ${cat.label} Stories</div><div class="sec-cnt">${st.length?st.length+' articles':'Loading...'}</div></div>`;
     h+=`<div class="slist">`;
     if(st.length){
-      st.slice(1).forEach(s=>{
-        h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})">
-          <div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div>
-          <div class="sc-sum">${s.summary}</div>
-          <div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div>
-        </div>`;
-      });
+      st.slice(1).forEach(s=>{h+=`<div class="sc ${cat.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${cat.color}"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div></div>`;});
     }else{
-      h+=`${[0,1,2,3,4,5].map(()=>`<div class="skel-card"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
+      h+=`${[0,1,2,3,4,5].map(()=>`<div class="skc"><div class="sk sk1"></div><div class="sk sk2"></div><div class="sk sk3"></div><div class="sk sk4"></div></div>`).join('')}`;
     }
     h+=`</div>`;
   }
@@ -590,13 +580,8 @@ function openStory(s){
       <div class="s-kicker" style="color:${cat.color}">${cat.label} · ${s.urgency.toUpperCase()}</div>
       <div class="s-hl">${s.headline}</div>
       <div class="s-sum">${s.summary}</div>
-      <div class="s-meta">
-        <span>Source: ${s.source}</span>
-        ${s.age?`<span>${s.age}</span>`:''}
-        ${s.readTime?`<span>${s.readTime}</span>`:''}
-        <span>EconomyConsumer.com</span>
-      </div>
-      <div class="s-disc">⚠ <strong>Disclaimer:</strong> This is original AI-generated editorial content independently written. Not affiliated with the cited source. Not financial advice. <a href="/legal">Full disclaimer →</a></div>
+      <div class="s-meta"><span>Source: ${s.source}</span>${s.age?`<span>${s.age}</span>`:''}</div>
+      <div class="s-disc">⚠ <strong>Disclaimer:</strong> Original AI-generated editorial content. Not affiliated with cited source. Not financial advice. <a href="/legal">Full disclaimer →</a></div>
       <div class="s-btns">
         <div class="s-btn s-save" id="sv-btn">🔖 Save Article</div>
         <div class="s-btn s-close" onclick="closeSheet()">Close</div>
@@ -607,8 +592,7 @@ function openStory(s){
   ov.onclick=closeSheet;
   bx.querySelector('#sv-btn').onclick=()=>{
     if(!saved.find(a=>a.headline===s.headline)){saved.push(s);try{localStorage.setItem('ec_saved',JSON.stringify(saved));}catch(e){}}
-    bx.querySelector('#sv-btn').textContent='✓ Saved!';
-    showToast('Saved to bookmarks');
+    bx.querySelector('#sv-btn').textContent='✓ Saved!';showToast('Saved to bookmarks');
   };
   window._cs=()=>{bx.classList.remove('open');setTimeout(()=>{ov.remove();bx.remove();},350);};
 }
@@ -618,22 +602,20 @@ function switchTab(t){
   curTab=t;
   document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   document.querySelectorAll('.dt').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  if(isMobile())document.getElementById('mct').style.display=t==='feed'?'flex':'none';
+  if(mob())document.getElementById('mct').style.display=t==='feed'?'flex':'none';
   layout();
   if(t==='feed')renderFeed();
   else if(t==='markets')renderMarkets();
   else if(t==='search')renderSearch();
   else if(t==='saved')renderSaved();
-  if(isMobile())document.getElementById('fw').scrollTo(0,0);
-  else window.scrollTo(0,0);
+  if(mob())document.getElementById('fw').scrollTo(0,0);else window.scrollTo(0,0);
 }
 
 function setCat(c){
   curCat=c;
   document.querySelectorAll('[data-c]').forEach(el=>el.classList.toggle('on',el.dataset.c===c));
   if(curTab==='feed')renderFeed();
-  if(isMobile())document.getElementById('fw').scrollTo({top:0,behavior:'smooth'});
-  else window.scrollTo({top:0,behavior:'smooth'});
+  if(mob())document.getElementById('fw').scrollTo({top:0,behavior:'smooth'});else window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('mct').addEventListener('click',e=>{const t=e.target.closest('[data-c]');if(t)setCat(t.dataset.c);});
 document.getElementById('dnav').addEventListener('click',e=>{const t=e.target.closest('[data-c]');if(t)setCat(t.dataset.c);});
@@ -642,17 +624,10 @@ document.getElementById('dtabs').addEventListener('click',e=>{const t=e.target.c
 function renderMarkets(){
   const ids=['dow','sp','nq','ftse','gold','oil','btc','eur'],names=['Dow Jones','S&P 500','NASDAQ','FTSE 100','Gold','Oil WTI','Bitcoin','EUR/USD'];
   let h=`<div class="sec-hd" style="padding-top:4px"><div class="sec-ttl">Live Market Data</div></div><div class="mkt-grid">`;
-  ids.forEach((id,i)=>{
-    const v=document.getElementById('v-'+id)?.textContent||'—',c=document.getElementById('c-'+id)?.textContent||'—';
-    h+=`<div class="mg"><div class="mg-n">${names[i]}</div><div class="mg-v">${v}</div><div class="mg-c ${c.startsWith('-')?'dn':'up'}">${c}</div></div>`;
-  });
+  ids.forEach((id,i)=>{const v=document.getElementById('v-'+id)?.textContent||'—',c=document.getElementById('c-'+id)?.textContent||'—';h+=`<div class="mg"><div class="mg-n">${names[i]}</div><div class="mg-v">${v}</div><div class="mg-c ${c.startsWith('-')?'dn':'up'}">${c}</div></div>`;});
   h+=`</div>`;
   const ms=news['markets']||[];
-  if(ms.length){
-    h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:#b87010"></div>Market News</div><div class="sec-cnt">${ms.length} articles</div></div><div class="slist">`;
-    ms.forEach(s=>{h+=`<div class="sc markets" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:#b87010"></div><div class="sc-src">${s.source}</div>${s.readTime?`<div class="sc-read">${s.readTime}</div>`:''}<div class="sc-age">${s.age||'today'}</div></div></div>`;});
-    h+=`</div>`;
-  }
+  if(ms.length){h+=`<div class="sec-hd"><div class="sec-ttl"><div class="sdot" style="background:#b87010"></div>Market News</div><div class="sec-cnt">${ms.length} articles</div></div><div class="slist">`;ms.forEach(s=>{h+=`<div class="sc markets" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:#b87010"></div><div class="sc-src">${s.source}</div><div class="sc-age">${s.age||'today'}</div></div></div>`;});h+=`</div>`;}
   h+=`<div style="background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:10px;padding:12px 14px;margin-top:20px;font-size:0.72rem;color:var(--ink2);line-height:1.6">⚠ <strong style="color:var(--gold)">Financial Disclaimer:</strong> Market data is indicative only and may be delayed. Not financial advice. <a href="/legal#financial" style="color:var(--gold)">Full disclaimer →</a></div>`;
   document.getElementById('feed').innerHTML=h;
 }
@@ -660,37 +635,30 @@ function renderMarkets(){
 function renderSearch(){
   const total=Object.values(news).flat().length;
   document.getElementById('feed').innerHTML=`
-    <div class="sec-hd" style="padding-top:4px"><div class="sec-ttl">Search</div><div class="sec-cnt">${total} articles indexed</div></div>
-    <div class="srch-w"><span style="font-size:15px;color:var(--ink3)">🔍</span><input id="sinput" placeholder="Search all ${total} articles..." oninput="doSearch(this.value)"></div>
+    <div class="sec-hd" style="padding-top:4px"><div class="sec-ttl">Search</div><div class="sec-cnt">${total} articles</div></div>
+    <div class="srch"><span style="font-size:15px;color:var(--ink3)">🔍</span><input id="sinput" placeholder="Search all articles..." oninput="doSearch(this.value)"></div>
     <div id="sres"></div>`;
   setTimeout(()=>document.getElementById('sinput')?.focus(),150);
 }
 function doSearch(q){
   const res=document.getElementById('sres');if(!res)return;
   if(!q.trim()){res.innerHTML='';return;}
-  const m=Object.values(news).flat().filter(s=>s.headline.toLowerCase().includes(q.toLowerCase())||s.summary.toLowerCase().includes(q.toLowerCase())||(s.source||'').toLowerCase().includes(q.toLowerCase()));
-  if(!m.length){res.innerHTML=`<div class="empty-s"><div class="ei">🔍</div><div class="et">No results for "${q}"</div></div>`;return;}
-  let h=`<div class="slist">`;
-  m.forEach(s=>{const c=CATS.find(c=>c.id===s.category)||{id:s.category,color:'#b87010'};h+=`<div class="sc ${c.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${c.color}"></div><div class="sc-src">${s.source}</div></div></div>`;});
-  h+=`</div>`;res.innerHTML=h;
+  const m=Object.values(news).flat().filter(s=>s.headline.toLowerCase().includes(q.toLowerCase())||s.summary.toLowerCase().includes(q.toLowerCase()));
+  if(!m.length){res.innerHTML=`<div class="empty-s"><div class="ei">🔍</div><div class="et">No results</div></div>`;return;}
+  let h=`<div class="slist">`;m.forEach(s=>{const c=CATS.find(c=>c.id===s.category)||{id:s.category,color:'#b87010'};h+=`<div class="sc ${c.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${c.color}"></div><div class="sc-src">${s.source}</div></div></div>`;});h+=`</div>`;res.innerHTML=h;
 }
 
 function renderSaved(){
   let h=`<div class="sec-hd" style="padding-top:4px"><div class="sec-ttl">Saved Articles</div><div class="sec-cnt">${saved.length} saved</div></div>`;
-  if(!saved.length){h+=`<div class="empty-s"><div class="ei">🔖</div><div class="et">No saved articles yet<br>Tap any story and save it</div></div>`;}
-  else{
-    h+=`<div class="slist">`;
-    [...saved].reverse().forEach(s=>{const c=CATS.find(c=>c.id===s.category)||{id:s.category,color:'#b87010'};h+=`<div class="sc ${c.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${c.color}"></div><div class="sc-src">${s.source}</div></div></div>`;});
-    h+=`</div>`;
-  }
+  if(!saved.length){h+=`<div class="empty-s"><div class="ei">🔖</div><div class="et">No saved articles yet</div></div>`;}
+  else{h+=`<div class="slist">`;[...saved].reverse().forEach(s=>{const c=CATS.find(c=>c.id===s.category)||{id:s.category,color:'#b87010'};h+=`<div class="sc ${c.id}" onclick="openStory(${esc(s)})"><div class="sc-top"><div class="sc-hl">${s.headline}</div>${chip(s.urgency)}</div><div class="sc-sum">${s.summary}</div><div class="sc-ft"><div class="sc-dot" style="background:${c.color}"></div><div class="sc-src">${s.source}</div></div></div>`;});h+=`</div>`;}
   document.getElementById('feed').innerHTML=h;
 }
 
-const showToast=msg=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);};
+const showToast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);};
 
 function startCountdown(secs){
-  clearInterval(cdTimer);
-  cdSecs=secs||REFRESH_SECS;
+  clearInterval(cdTimer);cdSecs=secs||RS;
   cdTimer=setInterval(()=>{
     cdSecs--;
     if(cdSecs<=0){clearInterval(cdTimer);loadFresh();return;}
@@ -707,50 +675,57 @@ function doRefresh(){showToast('Fetching latest news...');loadFresh();}
 
 function loadCached(){
   try{
-    const raw=localStorage.getItem(CACHE_KEY);
-    if(!raw)return null;
+    const raw=localStorage.getItem(CK);if(!raw)return null;
     const{data,ts}=JSON.parse(raw);
     const age=Date.now()-ts;
-    if(age>CACHE_AGE)return null;
-    return{data,remainingSecs:Math.floor((CACHE_AGE-age)/1000)};
+    if(age>CA)return null;
+    return{data,remaining:Math.floor((CA-age)/1000)};
   }catch(e){return null;}
 }
+function saveCache(){try{localStorage.setItem(CK,JSON.stringify({data:news,ts:Date.now()}));}catch(e){}}
 
-function saveCache(){
-  try{localStorage.setItem(CACHE_KEY,JSON.stringify({data:news,ts:Date.now()}));}catch(e){}
-}
-
-// Fire all 8 categories in PARALLEL
 async function loadFresh(){
   document.getElementById('rbtn').classList.add('spin');
-  showStatus('Fetching latest news from all categories...');
+  showSbar('Fetching latest news from all categories...');
+
   fetchMarkets();
 
+  // Fetch all 8 categories in parallel
   const results=await Promise.allSettled(
-    CATS.map(cat=>fetchCat(cat.id).then(s=>({id:cat.id,s})))
+    CATS.map(cat=>fetchCat(cat.id).then(s=>({id:cat.id,s})).catch(e=>({id:cat.id,err:e.message})))
   );
 
+  let successCount=0;
+  let firstError=null;
+
   results.forEach(r=>{
-    if(r.status==='fulfilled')news[r.value.id]=r.value.s;
-    else{
-      console.error('Fetch failed:',r.reason?.message);
-      // Keep existing cache for failed cats rather than clearing
+    if(r.status==='fulfilled'){
+      if(r.value.err){
+        if(!firstError)firstError={cat:r.value.id,msg:r.value.err};
+        console.error(r.value.id,r.value.err);
+      }else{
+        news[r.value.id]=r.value.s;
+        successCount++;
+      }
     }
   });
 
-  const total=Object.values(news).flat().length;
   saveCache();
   renderFeed();
   document.getElementById('rbtn').classList.remove('spin');
 
-  if(total>0){
-    hideStatus();
+  if(successCount>0){
+    hideSbar();
+    const total=Object.values(news).flat().length;
     showToast(`${total} articles loaded`);
+    startCountdown();
+  }else if(firstError){
+    hideSbar();
+    showError(firstError.cat, firstError.msg);
+    // Don't start countdown if everything failed
   }else{
-    showStatus('Could not load news. Visit /api/test to diagnose the issue.');
+    hideSbar();
   }
-
-  startCountdown();
 }
 
 window.addEventListener('load',()=>{
@@ -759,20 +734,15 @@ window.addEventListener('load',()=>{
   if(cached){
     news=cached.data;
     renderFeed();
-    startCountdown(cached.remainingSecs);
-    // Silently refresh in background after showing cached
-    showStatus('Showing cached news · Updating in background...');
-    setTimeout(()=>{
-      loadFresh();
-    },500);
+    startCountdown(cached.remaining);
+    setTimeout(()=>{showSbar('Updating with fresh news...');loadFresh();},800);
   }else{
-    renderFeed(); // show skeletons
+    renderFeed();
     loadFresh();
   }
 });
 window.addEventListener('resize',layout);
 
-// Pull to refresh
 let ptY=0,ptOn=false;
 const fw=document.getElementById('fw');
 fw.addEventListener('touchstart',e=>{if(fw.scrollTop===0)ptY=e.touches[0].clientY;},{passive:true});
