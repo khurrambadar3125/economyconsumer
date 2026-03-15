@@ -302,7 +302,8 @@ async function fetchMarkets(){
       messages:[{role:'user',content:'Current market prices JSON only.'}]
     })});
     const d=await r.json();
-    const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
+    if(d.type==='error') throw new Error(d.error?.message);
+    const txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
     const m=JSON.parse(txt);
     setM('dow',m.dow.val,m.dow.chg);setM('sp',m.sp.val,m.sp.chg);
     setM('nq',m.nasdaq.val,m.nasdaq.chg);setM('ftse',m.ftse.val,m.ftse.chg);
@@ -322,9 +323,13 @@ async function fetchCat(cat){
     messages:[{role:'user',content:`4 most important ${info.label} stories right now, JSON only.`}]
   })});
   const d=await r.json();
-  const txt=d.content.filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
+  // Handle API-level errors
+  if(d.type==='error') throw new Error(d.error?.message||'API error: '+d.error?.type);
+  // web_search returns mixed content blocks - grab all text blocks
+  const txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
+  if(!txt) throw new Error('Empty response. Content blocks: '+JSON.stringify((d.content||[]).map(b=>b.type)));
   const s=txt.indexOf('['),e=txt.lastIndexOf(']');
-  if(s<0||e<0)throw new Error('No array');
+  if(s<0||e<0) throw new Error('No JSON array in: '+txt.substring(0,200));
   return JSON.parse(txt.slice(s,e+1));
 }
 
