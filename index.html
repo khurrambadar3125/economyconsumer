@@ -531,18 +531,47 @@ async function loadAll(){
   const rbtn=document.getElementById('rbtn');
   rbtn.classList.add('spinning');
   news={};
+
+  // Test proxy first
+  try{
+    status.textContent='Connecting to AI...';
+    const test=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:10,messages:[{role:'user',content:'hi'}]})});
+    if(!test.ok){
+      const err=await test.json();
+      status.textContent='Error: '+(err.error||'API connection failed');
+      fill.style.width='100%';
+      rbtn.classList.remove('spinning');
+      setTimeout(()=>{loader.classList.add('gone');layout();},3000);
+      return;
+    }
+  }catch(e){
+    status.textContent='Cannot reach server. Check Vercel logs.';
+    fill.style.width='100%';
+    rbtn.classList.remove('spinning');
+    setTimeout(()=>{loader.classList.add('gone');layout();},3000);
+    return;
+  }
+
   fetchMarkets();
   let done=0;
   for(const cat of CATS){
     status.textContent=`Scanning: ${cat.label}...`;
     fill.style.width=`${(done/CATS.length)*90}%`;
-    try{const s=await fetchCat(cat.id);news[cat.id]=s;if(curTab==='feed')renderFeed();}
-    catch(e){console.error(cat.id,e);news[cat.id]=[];}
+    try{
+      const s=await fetchCat(cat.id);
+      news[cat.id]=s;
+      if(curTab==='feed')renderFeed();
+    }catch(e){
+      console.error(cat.id,e);
+      news[cat.id]=[];
+    }
     done++;
   }
-  fill.style.width='100%';status.textContent='Ready.';
+  fill.style.width='100%';
+  const total=Object.values(news).flat().length;
+  status.textContent=total>0?`${total} stories loaded.`:'No stories loaded — check Vercel env vars.';
   rbtn.classList.remove('spinning');
-  setTimeout(()=>{loader.classList.add('gone');layout();},600);
+  setTimeout(()=>{loader.classList.add('gone');layout();},800);
   startCountdown();
 }
 

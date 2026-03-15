@@ -1,9 +1,4 @@
 {
   "version": 2,
-  "name": "economyconsumer",
-  "functions": {
-    "api/proxy.js": {
-      "maxDuration": 30
-    }
-  }
+  "name": "economyconsumer"
 }
