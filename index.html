@@ -33,7 +33,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
   body{overflow:hidden}
   #spad{height:var(--safe-top);background:var(--white);position:fixed;top:0;left:0;right:0;z-index:100}
   #hdr{position:fixed;top:var(--safe-top);left:0;right:0;z-index:90}
-  #mct{position:fixed;left:0;right:0;z-index:80}
+  #mct{position:fixed;left:0;right:0;z-index:80;display:flex}
   #fw{position:fixed;left:0;right:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   #tabbar{position:fixed;bottom:0;left:0;right:0;z-index:90}
 }
@@ -84,7 +84,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
 }
 
 /* MOBILE TABS */
-#mct{background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 10px}
+#mct{background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--rule);display:none;overflow-x:auto;scrollbar-width:none;padding:0 10px}
 #mct::-webkit-scrollbar{display:none}
 .mctb{flex-shrink:0;font-size:0.7rem;font-weight:600;padding:10px 10px;color:var(--ink3);cursor:pointer;border-bottom:2.5px solid transparent;transition:all 0.18s;white-space:nowrap}
 .mctb.on{color:var(--gold);border-bottom-color:var(--gold)}
@@ -443,24 +443,33 @@ function setM(id,val,chg){
 }
 
 async function fetchMarkets(){
-  try{
-    const r=await fetch('/api/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      model:'claude-haiku-4-5-20251001',max_tokens:400,
-      tools:[{type:'web_search_20250305',name:'web_search'}],
-      system:'Search for current live market prices. Return ONLY a raw JSON object with no markdown, no backticks, nothing else: {"dow":{"val":"43521","chg":"+0.4%"},"sp":{"val":"5891","chg":"+0.3%"},"nasdaq":{"val":"18234","chg":"+0.6%"},"ftse":{"val":"8445","chg":"-0.1%"},"gold":{"val":"2654","chg":"+0.8%"},"oil":{"val":"72.3","chg":"-0.5%"},"btc":{"val":"84200","chg":"+1.2%"},"eur":{"val":"1.085","chg":"+0.1%"}}',
-      messages:[{role:'user',content:'Search for current live market prices now. Return JSON only.'}]
-    })});
-    const d=await r.json();
-    if(d.type==='error')return;
-    const txt=(d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').replace(/```json|```/g,'').trim();
-    const si=txt.indexOf('{'),ei=txt.lastIndexOf('}');if(si<0)return;
-    const m=JSON.parse(txt.slice(si,ei+1));
-    setM('dow',m.dow.val,m.dow.chg);setM('sp',m.sp.val,m.sp.chg);
-    setM('nq',m.nasdaq.val,m.nasdaq.chg);setM('ftse',m.ftse.val,m.ftse.chg);
-    setM('gold','$'+m.gold.val,m.gold.chg);setM('oil','$'+m.oil.val,m.oil.chg);
-    setM('btc','$'+m.btc.val,m.btc.chg);setM('eur',m.eur.val,m.eur.chg);
-    if(curTab==='markets')renderMarkets();
-  }catch(e){console.error('mkt',e.message);}
+  // Use free Yahoo Finance query to get market data - no API key needed, no rate limit impact
+  const symbols=[
+    {id:'dow',  sym:'^DJI'},
+    {id:'sp',   sym:'^GSPC'},
+    {id:'nq',   sym:'^IXIC'},
+    {id:'ftse', sym:'^FTSE'},
+    {id:'gold', sym:'GC=F', prefix:'$'},
+    {id:'oil',  sym:'CL=F', prefix:'$'},
+    {id:'btc',  sym:'BTC-USD', prefix:'$'},
+    {id:'eur',  sym:'EURUSD=X'},
+  ];
+  for(const sym of symbols){
+    try{
+      const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym.sym}?interval=1d&range=1d`,{headers:{'Accept':'application/json'}});
+      if(!r.ok)continue;
+      const d=await r.json();
+      const q=d?.chart?.result?.[0]?.meta;
+      if(!q)continue;
+      const price=q.regularMarketPrice||q.previousClose;
+      const prev=q.chartPreviousClose||q.previousClose;
+      const chg=price&&prev?((price-prev)/prev*100):0;
+      const fmt=price>1000?price.toLocaleString('en-US',{maximumFractionDigits:0}):price.toFixed(2);
+      const chgStr=(chg>=0?'+':'')+chg.toFixed(2)+'%';
+      setM(sym.id,(sym.prefix||'')+fmt,chgStr);
+    }catch(e){}
+  }
+  if(curTab==='markets')renderMarkets();
 }
 
 async function fetchCat(cat){
@@ -688,7 +697,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
 async function loadFresh(){
   document.getElementById('rbtn').classList.add('spin');
-  fetchMarkets();
+  // Fetch markets AFTER news to avoid rate limit competition
   let successCount=0,firstError=null;
   for(let i=0;i<CATS.length;i++){
     const cat=CATS[i];
@@ -705,7 +714,14 @@ async function loadFresh(){
   }
   saveCache();renderFeed();
   document.getElementById('rbtn').classList.remove('spin');
-  if(successCount>0){hideSbar();const total=Object.values(news).flat().length;showToast(total+' articles loaded');startCountdown();}
+  if(successCount>0){
+    hideSbar();
+    const total=Object.values(news).flat().length;
+    showToast(total+' articles loaded');
+    startCountdown();
+    // Now fetch markets - rate limit pressure is gone
+    fetchMarkets();
+  }
   else if(firstError){hideSbar();showError(firstError.cat,firstError.msg);}
   else{hideSbar();}
 }
