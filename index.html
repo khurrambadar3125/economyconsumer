@@ -624,6 +624,7 @@ if(LANG_CODE === 'ar'){
 
 // Apply translations to static HTML
 function applyTranslations(){
+  updateCatLabels();
   document.querySelector('.logo-tag').textContent = T.logoTag;
   document.querySelector('.ltxt').textContent = T.live;
 
@@ -673,16 +674,23 @@ function applyTranslations(){
   if(fdisc) fdisc.textContent = T.footerDisc;
 }
 
-const CATS=()=>[
-  {id:'markets',   label:T.markets,   color:'#b87010'},
-  {id:'world',     label:T.world,     color:'#1040a8'},
-  {id:'technology',label:T.technology,color:'#107840'},
-  {id:'politics',  label:T.politics,  color:'#c02020'},
-  {id:'energy',    label:T.energy,    color:'#6018c8'},
-  {id:'business',  label:T.business,  color:'#b84010'},
-  {id:'science',   label:T.science,   color:'#0878a0'},
-  {id:'finance',   label:T.finance,   color:'#107878'},
+const CATS=[
+  {id:'markets',   label:'Markets & Finance',  color:'#b87010'},
+  {id:'world',     label:'World News',          color:'#1040a8'},
+  {id:'technology',label:'Technology',          color:'#107840'},
+  {id:'politics',  label:'Politics & Policy',  color:'#c02020'},
+  {id:'energy',    label:'Energy & Climate',   color:'#6018c8'},
+  {id:'business',  label:'Business & Economy', color:'#b84010'},
+  {id:'science',   label:'Science & Health',   color:'#0878a0'},
+  {id:'finance',   label:'Personal Finance',   color:'#107878'},
 ];
+// Override labels with translated versions after T is set
+function updateCatLabels(){
+  const map={markets:T.markets,world:T.world,technology:T.technology,
+    politics:T.politics,energy:T.energy,business:T.business,
+    science:T.science,finance:T.finance};
+  CATS.forEach(c=>{if(map[c.id])c.label=map[c.id];});
+}
 const BGS=['135deg,#1a3a5c,#2a6aaf','135deg,#1a4a2e,#2a8a5e','135deg,#4a1a5c,#7a3aad','135deg,#5c1a1a,#af2a2a','135deg,#2a1a4a,#5a3aad','135deg,#3a2a1a,#8a5a2a','135deg,#0a2a4a,#1a6a9a','135deg,#0a3a3a,#1a7878'];
 const CK='ec_v11';
 const CA=12*60*60*1000;
@@ -763,7 +771,7 @@ function showError(cat, errMsg){
 
 function renderFeed(){
   if(curTab!=='feed')return;
-  const cats=curCat==='all'?CATS():CATS().filter(c=>c.id===curCat);
+  const cats=curCat==='all'?CATS:CATS.filter(c=>c.id===curCat);
   let h='';
 
   let brk=null;
@@ -947,8 +955,8 @@ async function loadFresh(){
   document.getElementById('rbtn').classList.add('spin');
   // Fetch markets AFTER news to avoid rate limit competition
   let successCount=0,firstError=null;
-  const _CATS=CATS();for(let i=0;i<_CATS.length;i++){
-    const cat=_CATS[i];
+  for(let i=0;i<CATS.length;i++){
+    const cat=CATS[i];
     showSbar('Loading '+cat.label+' ('+( i+1)+'/'+CATS.length+')...');
     try{
       const s=await fetchCat(cat.id);
