@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Legal · Disclaimer · Privacy Policy — EconomyConsumer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f6f4f0;--card:#fff;--ink:#0f0e0c;--ink2:#3d3b37;--ink3:#8a8780;--rule:#e4e0d8;--gold:#b8720a;--gold-bg:#fff7ed;--gold-bd:#fddcaa;--red:#c8281e;--red-bg:#fff1f0}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* HEADER */
+.site-hdr{background:#fff;border-bottom:1px solid var(--rule);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);text-decoration:none}
+.logo b{color:var(--gold)}
+.back-btn{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;color:var(--ink3);text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--rule);border-radius:20px;padding:6px 14px;transition:all 0.2s}
+.back-btn:hover{background:var(--gold-bg);color:var(--gold);text-decoration:none;border-color:var(--gold-bd)}
+
+/* HERO BANNER */
+.legal-hero{background:linear-gradient(135deg,#1a2a4a,#2a4a7a);padding:48px 24px;text-align:center}
+.legal-hero-tag{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:12px}
+.legal-hero-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:12px}
+.legal-hero-sub{font-size:0.9rem;color:rgba(255,255,255,0.6);max-width:560px;margin:0 auto;line-height:1.6}
+.legal-date{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin-top:16px;text-transform:uppercase}
+
+/* IMPORTANT BOX */
+.important-box{background:var(--red-bg);border:1px solid #ffccc8;border-radius:12px;padding:20px 24px;margin:32px auto;max-width:860px}
+.important-box-title{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);margin-bottom:8px;font-weight:500}
+.important-box p{font-size:0.88rem;color:var(--ink2);line-height:1.7;font-weight:500}
+
+/* CONTENT */
+.legal-wrap{max-width:860px;margin:0 auto;padding:0 24px 80px}
+
+/* NAV */
+.legal-nav{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 36px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+.legal-nav a{font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:7px 14px;transition:all 0.2s;text-decoration:none}
+.legal-nav a:hover{color:var(--gold);border-color:var(--gold-bd);background:var(--gold-bg)}
+
+/* SECTIONS */
+.legal-section{margin-bottom:48px}
+.section-anchor{display:block;height:80px;margin-top:-80px;visibility:hidden}
+.section-tag{font-family:'DM Mono',monospace;font-size:0.54rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:500}
+.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--rule)}
+.legal-section h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin:24px 0 8px}
+.legal-section p{font-size:0.88rem;color:var(--ink2);margin-bottom:12px;line-height:1.75}
+.legal-section ul{padding-left:20px;margin-bottom:12px}
+.legal-section ul li{font-size:0.88rem;color:var(--ink2);margin-bottom:6px;line-height:1.7}
+.legal-section strong{color:var(--ink);font-weight:600}
+
+/* HIGHLIGHT BOX */
+.highlight{background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:10px;padding:16px 20px;margin:16px 0}
+.highlight p{font-size:0.85rem;color:var(--ink2);margin:0;line-height:1.65}
+.highlight strong{color:var(--gold)}
+
+/* CONTACT */
+.contact-box{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:24px;text-align:center;margin-top:48px}
+.contact-box h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.contact-box p{font-size:0.85rem;color:var(--ink3);margin-bottom:16px}
+.contact-email{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:8px;padding:10px 20px;display:inline-block}
+
+/* FOOTER */
+.legal-footer{background:var(--ink);padding:24px;text-align:center;margin-top:0}
+.legal-footer p{font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.08em;color:rgba(255,255,255,0.35);line-height:1.8;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<header class="site-hdr">
+  <a href="/" class="logo">Economy<b>Consumer</b></a>
+  <a href="/" class="back-btn">← Back to News</a>
+</header>
+
+<div class="legal-hero">
+  <div class="legal-hero-tag">Legal Information</div>
+  <div class="legal-hero-title">Disclaimer, Terms &amp; Privacy Policy</div>
+  <div class="legal-hero-sub">Please read these documents carefully before using EconomyConsumer.com. By accessing this platform you agree to all terms stated below.</div>
+  <div class="legal-date">Last Updated: March 2026 · Governing Law: Applicable International Law</div>
+</div>
+
+<div class="legal-wrap">
+
+  <div class="important-box">
+    <div class="important-box-title">⚠ Important Notice</div>
+    <p>EconomyConsumer.com is an AI-powered editorial news aggregation and synthesis platform. All content is independently generated by artificial intelligence after reading publicly available news sources. This platform does not reproduce, copy or republish any original articles. All stories are original AI-written summaries. Nothing on this platform constitutes financial, investment, legal or professional advice of any kind.</p>
+  </div>
+
+  <nav class="legal-nav">
+    <a href="#disclaimer">Disclaimer</a>
+    <a href="#liability">Liability Limitation</a>
+    <a href="#editorial">AI Editorial Policy</a>
+    <a href="#copyright">Copyright & IP</a>
+    <a href="#financial">Financial Disclaimer</a>
+    <a href="#privacy">Privacy Policy</a>
+    <a href="#cookies">Cookies</a>
+    <a href="#terms">Terms of Use</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- DISCLAIMER -->
+  <div class="legal-section">
+    <span class="section-anchor" id="disclaimer"></span>
+    <div class="section-tag">Section 1</div>
+    <h2 class="section-title">General Disclaimer</h2>
+    <p>EconomyConsumer.com (the "Platform") is operated as an independent AI-powered news synthesis service. The Platform uses artificial intelligence technology to read publicly available news sources and produce original, independently written editorial summaries. The Platform is not affiliated with, endorsed by, or connected to Bloomberg, Financial Times, Reuters, The New York Times, The Wall Street Journal, Washington Post, The Economist, Associated Press, BBC, CNBC, Politico, or any other news organization whose publicly available reporting may inform AI-generated content.</p>
+
+    <h3>No Affiliation with Named Publications</h3>
+    <p>References to Bloomberg, Financial Times (FT), Reuters, The New York Times (NYT), The Wall Street Journal (WSJ), Washington Post, The Economist, BBC News, Associated Press (AP), Politico, CNBC, MarketWatch, Barron's, Nikkei, and other publications on this Platform are solely to indicate the publicly available sources that the AI system may reference when generating original editorial summaries. EconomyConsumer.com is <strong>not</strong> affiliated with, licensed by, or approved by any of these organizations.</p>
+
+    <h3>AI-Generated Content</h3>
+    <p>All news summaries, headlines, market commentary, and editorial content published on this Platform are independently generated by artificial intelligence (AI). The AI reads publicly available information and rewrites it in original prose. No original articles are reproduced, copied, or republished in whole or in part. The AI-generated content represents the AI system's own synthesis and editorial interpretation and should not be attributed to any third-party publication.</p>
+
+    <div class="highlight">
+      <p><strong>Accuracy Notice:</strong> While the Platform strives for accuracy, AI-generated content may contain errors, omissions, outdated information, or inaccuracies. The Platform makes no warranty, express or implied, regarding the accuracy, completeness, timeliness, or reliability of any content published herein.</p>
+    </div>
+
+    <h3>No Professional Advice</h3>
+    <p>Nothing on EconomyConsumer.com constitutes financial advice, investment advice, legal advice, medical advice, tax advice, or any other form of professional advice. All content is provided for general informational and educational purposes only. You should always seek the advice of a qualified professional before making any financial, investment, legal, or other decisions.</p>
+  </div>
+
+  <!-- LIABILITY -->
+  <div class="legal-section">
+    <span class="section-anchor" id="liability"></span>
+    <div class="section-tag">Section 2</div>
+    <h2 class="section-title">Limitation of Liability</h2>
+
+    <h3>No Liability for Content</h3>
+    <p>To the fullest extent permitted by applicable law, EconomyConsumer.com, its operators, owners, employees, agents, and AI systems shall not be liable for any direct, indirect, incidental, special, consequential, punitive, or exemplary damages arising from or relating to:</p>
+    <ul>
+      <li>Any errors, inaccuracies, or omissions in any AI-generated content on the Platform</li>
+      <li>Any reliance placed by any person on content published on the Platform</li>
+      <li>Any financial losses, investment decisions, or trading activity influenced by content on the Platform</li>
+      <li>Any interruption, suspension, or termination of the Platform or its services</li>
+      <li>Any unauthorized access to or alteration of your data or transmissions</li>
+      <li>Any content posted, transmitted, or otherwise made available through the Platform</li>
+      <li>Any loss of profits, revenue, business, data, or goodwill arising from use of the Platform</li>
+    </ul>
+
+    <h3>No Warranty</h3>
+    <p>The Platform is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance.</p>
+
+    <h3>Third Party Links</h3>
+    <p>The Platform may contain references to third-party websites or services. EconomyConsumer.com has no control over and assumes no responsibility for the content, privacy policies, or practices of any third-party websites. We strongly advise you to read the terms and conditions and privacy policies of any third-party sites you visit.</p>
+
+    <h3>Indemnification</h3>
+    <p>You agree to defend, indemnify, and hold harmless EconomyConsumer.com and its operators from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Platform.</p>
+
+    <div class="highlight">
+      <p><strong>Maximum Liability:</strong> In no event shall the total aggregate liability of EconomyConsumer.com to any person exceed the amount paid by that person, if any, for accessing the Platform in the preceding twelve (12) months — which in most cases shall be zero, as the Platform is provided free of charge.</p>
+    </div>
+  </div>
+
+  <!-- EDITORIAL / AI POLICY -->
+  <div class="legal-section">
+    <span class="section-anchor" id="editorial"></span>
+    <div class="section-tag">Section 3</div>
+    <h2 class="section-title">AI Editorial Policy</h2>
+
+    <h3>How Our AI Works</h3>
+    <p>EconomyConsumer.com uses advanced artificial intelligence (Claude by Anthropic) combined with real-time web search to monitor publicly available news. The AI system reads breaking news from reputable global publications and produces <strong>entirely original, independently written</strong> editorial summaries. This process is designed to:</p>
+    <ul>
+      <li>Read and understand news from multiple public sources</li>
+      <li>Synthesize information from multiple reports into a single coherent summary</li>
+      <li>Rewrite all content entirely in original prose — no copying or reproducing of original articles</li>
+      <li>Apply editorial judgment to determine newsworthiness and urgency</li>
+      <li>Refresh content automatically on an hourly basis</li>
+    </ul>
+
+    <h3>No Reproduction of Copyrighted Material</h3>
+    <p>The Platform's AI is specifically instructed to <strong>never reproduce, quote, or copy</strong> original text from any publication. All output is original AI-generated editorial prose inspired by publicly available factual information. Facts, figures, names, and data points reported in public news are not subject to copyright protection. The Platform only presents factual information in its own original editorial voice.</p>
+
+    <h3>AI Limitations and Errors</h3>
+    <p>AI systems can and do make mistakes. The AI may occasionally misidentify sources, misstate figures, generate plausible-sounding but inaccurate information, or present outdated information as current. Users must independently verify all information before relying on it for any purpose. The Platform accepts no responsibility for AI errors.</p>
+
+    <h3>Hourly Refresh Policy</h3>
+    <p>The Platform automatically refreshes its news content approximately every 60 minutes. Market data and breaking news may be delayed and should not be used for real-time trading decisions. Market data is indicative only and may not reflect current market conditions.</p>
+  </div>
+
+  <!-- COPYRIGHT -->
+  <div class="legal-section">
+    <span class="section-anchor" id="copyright"></span>
+    <div class="section-tag">Section 4</div>
+    <h2 class="section-title">Copyright &amp; Intellectual Property</h2>
+
+    <h3>Our Content</h3>
+    <p>The AI-generated editorial content, website design, layout, code, and branding of EconomyConsumer.com are the intellectual property of the Platform operators. The name "EconomyConsumer", the Platform's logo, and its unique editorial voice are proprietary.</p>
+
+    <h3>Third-Party Intellectual Property</h3>
+    <p>All trademarks, trade names, logos, and brand names mentioned on this Platform (including Bloomberg, Financial Times, Reuters, New York Times, Wall Street Journal, etc.) are the property of their respective owners. Their mention is solely for informational and attribution purposes. No endorsement by or affiliation with these organizations is implied.</p>
+
+    <h3>Copyright Compliance</h3>
+    <p>EconomyConsumer.com is committed to full compliance with international copyright law including the Digital Millennium Copyright Act (DMCA), EU Copyright Directive, and applicable local copyright laws. If you believe any content on this Platform infringes your copyright, please contact us immediately at the address below with a detailed notice and we will respond promptly.</p>
+
+    <h3>Fair Use and Public Information</h3>
+    <p>The Platform relies on the principle that factual information — including news facts, figures, names, events, and data — is not copyrightable. Only the specific creative expression of such facts is protected. Our AI produces entirely original expression. The Platform's AI editorial process is analogous to a journalist reading multiple sources and writing an original story — a lawful and standard journalistic practice.</p>
+  </div>
+
+  <!-- FINANCIAL DISCLAIMER -->
+  <div class="legal-section">
+    <span class="section-anchor" id="financial"></span>
+    <div class="section-tag">Section 5</div>
+    <h2 class="section-title">Financial &amp; Investment Disclaimer</h2>
+
+    <div class="important-box" style="margin:0 0 24px">
+      <div class="important-box-title">⚠ Critical Financial Warning</div>
+      <p>NOTHING ON THIS PLATFORM IS FINANCIAL ADVICE. Market data, economic news, and business reporting on this Platform is for general informational purposes ONLY. Do not make any investment or financial decisions based on content from this Platform without consulting a qualified financial advisor.</p>
+    </div>
+
+    <h3>Market Data Disclaimer</h3>
+    <p>Market prices, indices, exchange rates, commodity prices, and cryptocurrency values displayed on this Platform are indicative only. Data may be delayed, approximate, or inaccurate. EconomyConsumer.com is <strong>not</strong> a regulated financial data provider. Do not use this data for actual trading, investment, or financial decisions.</p>
+
+    <h3>Not a Financial Services Provider</h3>
+    <p>EconomyConsumer.com is not a regulated investment advisor, broker-dealer, financial planner, or financial institution. The Platform does not hold any financial services license or authorization in any jurisdiction. Nothing on this Platform should be construed as an offer to buy or sell any security, currency, commodity, or financial instrument.</p>
+
+    <h3>Past Performance</h3>
+    <p>Any references to historical market performance, returns, or trends on this Platform do not guarantee future results. Investment in financial markets involves risk including possible loss of principal.</p>
+
+    <h3>Regulatory Compliance</h3>
+    <p>Users are solely responsible for ensuring their use of information from this Platform complies with all applicable laws and regulations in their jurisdiction, including but not limited to securities laws, financial regulations, and investment rules.</p>
+  </div>
+
+  <!-- PRIVACY POLICY -->
+  <div class="legal-section">
+    <span class="section-anchor" id="privacy"></span>
+    <div class="section-tag">Section 6</div>
+    <h2 class="section-title">Privacy Policy</h2>
+
+    <h3>Information We Collect</h3>
+    <p>EconomyConsumer.com is designed with privacy in mind. We collect minimal data:</p>
+    <ul>
+      <li><strong>Automatically collected:</strong> Standard server logs including IP addresses, browser type, pages visited, and timestamps. This data is used solely for security, debugging, and performance monitoring.</li>
+      <li><strong>Locally stored data:</strong> Saved articles are stored in your browser's local storage on your own device. This data never leaves your device and is not transmitted to our servers.</li>
+      <li><strong>Cookies:</strong> We use minimal technical cookies necessary for the Platform to function. See the Cookies section below.</li>
+    </ul>
+
+    <h3>Information We Do NOT Collect</h3>
+    <ul>
+      <li>We do not require user registration or accounts</li>
+      <li>We do not collect your name, email address, or personal details (unless you contact us)</li>
+      <li>We do not sell, rent, or share your data with any third party for marketing purposes</li>
+      <li>We do not use advertising tracking technologies</li>
+      <li>We do not build user profiles or behavioral datasets</li>
+    </ul>
+
+    <h3>Third-Party Services</h3>
+    <p>The Platform uses the following third-party services which may process limited data:</p>
+    <ul>
+      <li><strong>Vercel</strong> (hosting): Processes server requests and may log IP addresses per their privacy policy at vercel.com/legal/privacy-policy</li>
+      <li><strong>Anthropic Claude API</strong> (AI): Processes news fetch requests. No personal user data is sent to Anthropic. See anthropic.com/privacy</li>
+      <li><strong>Google Fonts</strong>: Font files are loaded from Google's servers. See Google's privacy policy at policies.google.com/privacy</li>
+    </ul>
+
+    <h3>Data Retention</h3>
+    <p>Server log data is retained for a maximum of 30 days for security and debugging purposes, after which it is automatically deleted. We do not retain any other user data.</p>
+
+    <h3>Your Rights</h3>
+    <p>Depending on your jurisdiction, you may have rights including the right to access, correct, or delete personal data we hold about you. To exercise any such rights, contact us at the address below. As we collect minimal data, most requests can be fulfilled immediately.</p>
+
+    <h3>International Transfers</h3>
+    <p>Our services are hosted on cloud infrastructure which may process data in various countries. By using the Platform you consent to the transfer of any limited data to countries that may have different data protection laws than your country of residence.</p>
+
+    <h3>Children's Privacy</h3>
+    <p>This Platform is not directed at children under the age of 16. We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, contact us immediately.</p>
+
+    <h3>GDPR (European Users)</h3>
+    <p>For users in the European Economic Area, our legal basis for processing the minimal data we collect is legitimate interest (operating a functioning web service). You have the right to lodge a complaint with your local supervisory authority. Our Data Protection contact is available at the address below.</p>
+  </div>
+
+  <!-- COOKIES -->
+  <div class="legal-section">
+    <span class="section-anchor" id="cookies"></span>
+    <div class="section-tag">Section 7</div>
+    <h2 class="section-title">Cookie Policy</h2>
+    <p>EconomyConsumer.com uses only essential technical cookies and browser local storage required to operate the Platform. We do not use advertising cookies, tracking cookies, or analytics cookies from third-party providers.</p>
+
+    <h3>Essential Technical Storage</h3>
+    <ul>
+      <li><strong>Saved Articles (Local Storage):</strong> Your saved articles are stored locally in your browser using localStorage. This data never leaves your device. You can clear it at any time through your browser settings.</li>
+      <li><strong>Session Cookies:</strong> Standard session cookies used by our hosting provider (Vercel) for security and performance.</li>
+    </ul>
+
+    <h3>No Third-Party Advertising Cookies</h3>
+    <p>We do not use Google Analytics, Facebook Pixel, or any other advertising or tracking technology. EconomyConsumer.com does not display advertisements and does not engage in behavioral tracking.</p>
+
+    <h3>Managing Cookies</h3>
+    <p>You can control cookies through your browser settings. Disabling cookies may affect the functionality of some Platform features. To clear saved articles, clear your browser's local storage data for economyconsumer.com.</p>
+  </div>
+
+  <!-- TERMS OF USE -->
+  <div class="legal-section">
+    <span class="section-anchor" id="terms"></span>
+    <div class="section-tag">Section 8</div>
+    <h2 class="section-title">Terms of Use</h2>
+
+    <h3>Acceptance of Terms</h3>
+    <p>By accessing or using EconomyConsumer.com you agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use the Platform.</p>
+
+    <h3>Permitted Use</h3>
+    <p>You may use EconomyConsumer.com for personal, non-commercial informational purposes only. You may not:</p>
+    <ul>
+      <li>Use automated tools, scrapers, or bots to harvest content from the Platform</li>
+      <li>Reproduce, republish, or commercially distribute AI-generated content from the Platform without written permission</li>
+      <li>Attempt to reverse engineer, hack, or disrupt the Platform or its AI systems</li>
+      <li>Use the Platform in any way that violates applicable local, national, or international law</li>
+      <li>Impersonate EconomyConsumer.com or claim affiliation with the Platform</li>
+      <li>Use content from this Platform to mislead others about the source of information</li>
+    </ul>
+
+    <h3>Geographic Restrictions</h3>
+    <p>The Platform makes no representation that content is appropriate or available in all locations. Users are responsible for compliance with local laws. Users in jurisdictions where financial news aggregation is restricted must not access the Platform's market data features.</p>
+
+    <h3>Changes to Terms</h3>
+    <p>We reserve the right to modify these Terms at any time. Continued use of the Platform after changes constitutes acceptance of the updated Terms. The date of last update is shown at the top of this page.</p>
+
+    <h3>Governing Law</h3>
+    <p>These Terms shall be governed by and construed in accordance with applicable international law. Any disputes shall be resolved through binding arbitration where permitted by law.</p>
+
+    <h3>Severability</h3>
+    <p>If any provision of these Terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary so that the Terms shall otherwise remain in full force and effect.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-box" id="contact">
+    <h3>Questions or Concerns?</h3>
+    <p>For copyright notices, privacy requests, legal inquiries, or general questions about this Platform:</p>
+    <div class="contact-email">legal@economyconsumer.com</div>
+    <p style="margin-top:12px;font-size:0.78rem;color:var(--ink3)">We aim to respond to all legal inquiries within 5 business days.</p>
+  </div>
+
+</div>
+
+<footer class="legal-footer">
+  <p>© 2026 EconomyConsumer.com · All Rights Reserved · AI-Powered Editorial Platform · Not affiliated with Bloomberg, FT, Reuters, NYT, WSJ or any named publication<br>
+  EconomyConsumer.com is not a financial advisor · Not a regulated entity · Content for informational purposes only · Always seek professional advice</p>
+</footer>
+
+</body>
+</html>
