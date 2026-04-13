@@ -1,1 +1,5 @@
-{"version":2,"name":"economyconsumer"}
+{
+  "version": 2,
+  "name": "economyconsumer",
+  "ignoreCommand": "bash .vercel-ignore-build.sh"
+}
