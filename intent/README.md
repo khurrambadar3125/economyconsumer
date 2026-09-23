@@ -7,7 +7,7 @@ Anything bigger than a one-file fix gets a folder `intent/<yyyy-mm-dd>-<slug>/` 
 |---|---|---|
 | `intent.md` | **why** — the problem and the outcome, in plain language | Khurram + Claude (`/intent` interviews him) — he signs it off |
 | `spec.md` | **what** — behaviour, data, routes, UI states, security, acceptance checks | Claude (`/spec`), from intent + this codebase |
-| `plan.md` | **how** — files that change, order of work, risks, proof | Claude (`/plan`), then builds it |
+| `plan.md` | **how** — files that change, order of work, risks, proof | Claude (`/build-plan`), then builds it |
 
 Rules: write only what Khurram said — anything he did not say goes under **Open questions**, never invented. The repo is the source of truth (no second copy in a tracker). A production anomaly re-opens the loop with a new `intent.md`.
 
