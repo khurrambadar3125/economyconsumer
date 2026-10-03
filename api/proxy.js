@@ -1,4 +1,5 @@
 export const config = { runtime: 'edge' };
+import { rateLimit, reserveSpend, settleSpend, bodyTooLarge } from './_lib/ai-guard.js';
 
 const SOURCES = {
   markets:    { label:'Markets & Finance',  q:'stock market financial news breaking today' },
@@ -29,6 +30,14 @@ export default async function handler(req) {
     }), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } });
   }
 
+  const deny = (status, type, message, extra = {}) => new Response(JSON.stringify({ type: 'error', error: { type, message } }),
+    { status, headers: { ...cors, 'Content-Type': 'application/json', ...extra } });
+  if (bodyTooLarge(req, 16_000)) return deny(413, 'too_large', 'Request too large.');
+  // One page load fetches 8 categories ~3 s apart; 10/min + 80/day per IP covers ten loads a day.
+  const rl = await rateLimit(req, 'proxy', [[10, 60], [80, 86400]]);
+  if (!rl.ok) return deny(429, 'rate_limited', 'Too many requests. Please try again later.', { 'Retry-After': String(rl.retryAfter) });
+
+  let reserved = 0;
   try {
     const body = await req.json();
     const cat = body._category;
@@ -51,6 +60,12 @@ export default async function handler(req) {
       delete requestBody._category;
     }
 
+    // Worst case: prompt + up to 20k tokens of search results in, full max_tokens out, 5 searches.
+    const maxOut = Math.min(Number(requestBody.max_tokens) || 1500, 1500);
+    const spend = await reserveSpend(Math.ceil(JSON.stringify(requestBody).length / 2) + 20_000, maxOut, 5);
+    if (!spend.ok) return deny(503, 'daily_budget', 'News is paused for today. Please come back tomorrow.');
+    reserved = spend.reserved;
+
     const upstream = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -63,6 +78,7 @@ export default async function handler(req) {
     });
 
     const data = await upstream.json();
+    await settleSpend(reserved, data.usage);
     return new Response(JSON.stringify(data), {
       status: upstream.status,
       headers: { ...cors, 'Content-Type': 'application/json' },

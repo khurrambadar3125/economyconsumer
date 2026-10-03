@@ -1,4 +1,5 @@
 export const config = { runtime: 'edge' };
+import { rateLimit, reserveSpend, settleSpend } from './_lib/ai-guard.js';
 export default async function handler(req) {
   const h = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
   const k = process.env.ANTHROPIC_API_KEY;
@@ -7,6 +8,12 @@ export default async function handler(req) {
     status: 'FAIL', problem: 'ANTHROPIC_API_KEY not set',
     fix: 'Go to vercel.com → your project → Settings → Environment Variables → Add: Name=ANTHROPIC_API_KEY Value=your-key → Save → Redeploy'
   }), { headers: h });
+
+  // Every hit is a paid model call with web search: keep it to a status check, not a free endpoint.
+  const rl = await rateLimit(req, 'test', [[2, 60], [10, 86400]]);
+  if (!rl.ok) return new Response(JSON.stringify({ status: 'RATE LIMITED', retryAfter: rl.retryAfter }), { status: 429, headers: { ...h, 'Retry-After': String(rl.retryAfter) } });
+  const spend = await reserveSpend(20_000, 100, 2);
+  if (!spend.ok) return new Response(JSON.stringify({ status: 'PAUSED', problem: 'daily AI budget reached' }), { status: 503, headers: h });
 
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
@@ -20,6 +27,7 @@ export default async function handler(req) {
       })
     });
     const d = await r.json();
+    await settleSpend(spend.reserved, d.usage);
     if (d.type === 'error') return new Response(JSON.stringify({
       status: 'FAIL',
       problem: d.error?.type,
