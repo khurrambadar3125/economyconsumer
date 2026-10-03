@@ -26,7 +26,7 @@ export default async function handler(req) {
   if (!apiKey) {
     return new Response(JSON.stringify({
       type: 'error',
-      error: { type: 'no_api_key', message: 'ANTHROPIC_API_KEY is not set in Vercel Environment Variables.' }
+      error: { type: 'unavailable', message: 'News is unavailable right now.' }
     }), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } });
   }
 
@@ -54,10 +54,9 @@ export default async function handler(req) {
         messages: [{ role: 'user', content: `Search: "${s.q}" and return 6 stories as JSON array only, nothing else.` }]
       };
     } else {
-      requestBody = { ...body };
-      requestBody.model = 'claude-haiku-4-5-20251001';
-      if (requestBody.max_tokens > 600) requestBody.max_tokens = 600;
-      delete requestBody._category;
+      // Closed 2026-10-03 (his ruling "switch off and fix it"): the free-form branch forwarded ANY client-built request to the
+      // AI provider on our key. The page only ever sends {_category}; anything else is refused.
+      return new Response(JSON.stringify({ type: 'error', error: { type: 'bad_request', message: 'Unknown category.' } }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } });
     }
 
     // Worst case: prompt + up to 20k tokens of search results in, full max_tokens out, 5 searches.
@@ -87,7 +86,7 @@ export default async function handler(req) {
   } catch (err) {
     return new Response(JSON.stringify({
       type: 'error',
-      error: { type: 'proxy_exception', message: err.message }
+      error: { type: 'unavailable', message: 'News is unavailable right now.' }
     }), { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } });
   }
 }

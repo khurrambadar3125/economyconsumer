@@ -388,7 +388,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-
       <div class="ft">
         <div><div class="fl">Economy<b>Consumer</b></div><div class="fl-tag">AI-Powered Global Business Intelligence · Updated Every 12 Hours</div></div>
         <div class="flinks">
-          <a href="/legal#disclaimer">Disclaimer</a><a href="/legal#liability">Liability</a><a href="/legal#financial">Financial Warning</a><a href="/legal#privacy">Privacy</a><a href="/legal#terms">Terms</a><a href="/legal#contact">Contact</a><a href="/api/test">System Status</a>
+          <a href="/legal#disclaimer">Disclaimer</a><a href="/legal#liability">Liability</a><a href="/legal#financial">Financial Warning</a><a href="/legal#privacy">Privacy</a><a href="/legal#terms">Terms</a><a href="/legal#contact">Contact</a>
         </div>
       </div>
       <div class="fdisc">© 2026 EconomyConsumer.com · All content is original AI-generated editorial prose · Not financial advice · Not a regulated entity · Market data is indicative only · Always seek qualified professional advice before making financial decisions</div>
@@ -754,13 +754,7 @@ function showError(cat, errMsg){
   const errHtml=`<div class="err-box">
     <div class="err-title">⚠ Failed to load ${cat} news</div>
     <div class="err-msg">${errMsg}</div>
-    <div class="err-fix">
-      <strong>How to fix:</strong>
-      1. Visit <a class="err-link" href="/api/test" target="_blank">/api/test</a> to see what's wrong<br>
-      2. Check Vercel → Settings → Environment Variables — is ANTHROPIC_API_KEY set?<br>
-      3. Go to console.anthropic.com → API Keys — is your key active?<br>
-      4. After fixing, click the ↻ refresh button above
-    </div>
+    <div class="err-fix">Please try again in a few minutes using the ↻ refresh button above.</div>
   </div>`;
   if(!existing){
     feed.insertAdjacentHTML('afterbegin', errHtml);
